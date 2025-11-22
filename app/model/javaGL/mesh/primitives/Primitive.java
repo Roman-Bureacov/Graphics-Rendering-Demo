@@ -1,0 +1,47 @@
+package model.javaGL.mesh.primitives;
+
+import model.javaGL.matrix.Matrix;
+import model.javaGL.matrix.Math;
+
+/**
+ * Representation of basic primitives.
+ *
+ * @author Roman Bureacov
+ * @version 2025-11
+ */
+public abstract class Primitive {
+
+    private int iColor = 0x000000;
+
+    /**
+     * Returns a non-copy of points of this primitive as a matrix.
+     * @return the points as column vectors. No sorting is guaranteed.
+     */
+    public abstract Matrix points();
+
+    /**
+     * Applies a matrix transformation to the set of points
+     * defining this primitive.
+     * @param pMatrix the matrix representing the linear transformation
+     * @return the resulting transformation
+     */
+    Matrix transform(Matrix pMatrix) {
+        return Math.matrixMultiply(pMatrix, this.points());
+    }
+
+    /**
+     * Gets the color value from this primitive
+     * @return the RGB value
+     */
+    int color() {
+        return this.iColor;
+    }
+
+    /**
+     * Sets the color for this primitive.
+     * @param pColor the (ideally hex) RGB value
+     */
+    void setColor(final int pColor) {
+        this.iColor = pColor;
+    }
+}
