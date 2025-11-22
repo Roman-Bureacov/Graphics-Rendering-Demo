@@ -1,7 +1,7 @@
 package model.javaGL.mesh.primitives;
 
 import model.javaGL.matrix.Matrix;
-import model.javaGL.matrix.Math;
+import model.javaGL.matrix.MatrixMath;
 
 /**
  * Representation of basic primitives.
@@ -25,9 +25,7 @@ public abstract class Primitive {
      * @param pMatrix the matrix representing the linear transformation
      * @return the resulting transformation
      */
-    Matrix transform(Matrix pMatrix) {
-        return Math.matrixMultiply(pMatrix, this.points());
-    }
+    public abstract void transform(final Matrix pMatrix);
 
     /**
      * Gets the color value from this primitive
@@ -44,4 +42,10 @@ public abstract class Primitive {
     void setColor(final int pColor) {
         this.iColor = pColor;
     }
+
+    /**
+     * Constructs a copy of this primitive.
+     * @return the duplicate of this primitive
+     */
+    public abstract Primitive copy();
 }

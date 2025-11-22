@@ -6,9 +6,9 @@ package model.javaGL.matrix;
  * @author Roman Bureacov
  * @version 2025-11
  */
-public final class Math {
+public final class MatrixMath {
 
-    private Math() {
+    private MatrixMath() {
         super();
     }
 
@@ -24,9 +24,12 @@ public final class Math {
         final int lLeftRows = pLeftMatrix.rowCount();
         final int lLeftColumns = pLeftMatrix.columnCount();
         final int lRightColumns = pRightMatrix.columnCount();
+        final int lRightRows = pRightMatrix.rowCount();
 
-        if (pLeftMatrix.columnCount() != pRightMatrix.rowCount())
-            throw new IllegalArgumentException("Matrices are of incompatible dimensions for multiplication");
+        if (lLeftColumns != lRightRows)
+            throw new IllegalArgumentException(
+                    "Matrices are of incompatible dimensions for multiplication: %d columns against %d rows"
+                            .formatted(lLeftColumns, lRightRows));
 
         final Matrix lResult = new Matrix(lLeftRows, lRightColumns);
 

@@ -1,14 +1,16 @@
 package model.javaGL.matrix;
 
+import java.util.Arrays;
+
 /**
- * Representation of an n x n matrix.
+ * Representation of an n x m matrix.
  * <br>
  * The row and columns of the matrix are 0-indexed.
  *
  * @author Roman Bureacov
  * @version 2025-11
  */
-public final class Matrix {
+public class Matrix<T> {
     private final double[][] iMatrix;
 
     /**
@@ -61,5 +63,34 @@ public final class Matrix {
      */
     public int columnCount() {
         return this.iMatrix[0].length;
+    }
+
+    /**
+     * Constructs a copy of this matrix.
+     * @return the duplicate of this matrix
+     */
+    public Matrix copy() {
+        final int lRows = this.rowCount();
+        final int lCols = this.columnCount();
+        final Matrix lDupe = new Matrix(lRows, lCols);
+        for (int i = 0; i < lRows; i++) {
+            lDupe.iMatrix[i] = Arrays.copyOf(this.iMatrix[i], lCols);
+        }
+
+        return lDupe;
+    }
+
+    /**
+     * Creates an n x n identity matrix
+     * @param pDimension the dimension of the square identity matrix
+     * @return the identity matrix
+     */
+    public static Matrix identity(final int pDimension) {
+        final Matrix lIdentity = new Matrix(pDimension, pDimension);
+        for (int i = 0; i < pDimension; i++) {
+            lIdentity.set(i, i, 1d);
+        }
+
+        return lIdentity;
     }
 }

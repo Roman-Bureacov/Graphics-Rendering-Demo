@@ -3,6 +3,7 @@ package model.javaGL.mesh;
 import java.util.HashSet;
 import java.util.Set;
 
+import model.javaGL.matrix.Matrix;
 import model.javaGL.mesh.primitives.Primitive;
 
 /**
@@ -13,6 +14,7 @@ import model.javaGL.mesh.primitives.Primitive;
  */
 public class Mesh {
     private final Set<Primitive> iPrimitives;
+    private String iName;
 
     {
         this.iPrimitives = new HashSet<>();
@@ -23,6 +25,22 @@ public class Mesh {
      */
     public Mesh() {
         super();
+    }
+
+    /**
+     * Sets the name of this mesh
+     * @param pName the name of this mesh
+     */
+    public void setName(final String pName) {
+        this.iName = pName;
+    }
+
+    /**
+     * returns the name of this mesh
+     * @return this name of this mesh
+     */
+    public String getName() {
+        return this.iName;
     }
 
     /**
@@ -47,5 +65,15 @@ public class Mesh {
      */
     public void remove(final Primitive pPrimitive) {
         this.iPrimitives.remove(pPrimitive);
+    }
+
+    /**
+     * Applies a transformation on this mesh
+     * @param pTransformation the transformation matrix
+     */
+    public void transform(final Matrix pTransformation) {
+        for (final Primitive p: this.iPrimitives) {
+            p.transform(pTransformation);
+        }
     }
 }

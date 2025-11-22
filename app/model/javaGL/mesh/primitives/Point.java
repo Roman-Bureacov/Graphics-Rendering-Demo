@@ -1,6 +1,7 @@
 package model.javaGL.mesh.primitives;
 
 import model.javaGL.matrix.Matrix;
+import model.javaGL.matrix.MatrixMath;
 
 /**
  * The representation of a point in space. Points in space
@@ -10,7 +11,7 @@ import model.javaGL.matrix.Matrix;
  * @version 2025-11
  */
 public class Point extends Primitive {
-    private final Matrix iMatrix;
+    private Matrix iMatrix;
 
     {
         this.iMatrix = new Matrix(1, 3);
@@ -34,6 +35,18 @@ public class Point extends Primitive {
      */
     public Point() {
         super();
+    }
+
+    @Override
+    public void transform(final Matrix pMatrix) {
+        this.iMatrix = MatrixMath.matrixMultiply(pMatrix, this.points());
+    }
+
+    @Override
+    public Primitive copy() {
+        final Point lDupe = new Point();
+        lDupe.iMatrix = this.iMatrix.copy();
+        return lDupe;
     }
 
     @Override

@@ -19,6 +19,7 @@ class Chair extends Mesh {
     Chair() {
         super();
         this.makePrimitives();
+        this.setName("Chair");
     }
     
     @SuppressWarnings("MagicNumber")
