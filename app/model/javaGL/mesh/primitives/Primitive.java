@@ -14,7 +14,7 @@ public abstract class Primitive {
     private int iColor = 0x000000;
 
     /**
-     * Returns a non-copy of points of this primitive as a matrix.
+     * Returns the matrix representing this primitive.
      * @return the points as column vectors. No sorting is guaranteed.
      */
     public abstract Matrix points();
