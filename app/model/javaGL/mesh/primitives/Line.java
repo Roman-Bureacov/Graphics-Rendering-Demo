@@ -1,32 +1,32 @@
 package model.javaGL.mesh.primitives;
 
-import model.javaGL.matrix.Matrix;
+import model.javaGL.matrix.DoubleMatrix;
 import model.javaGL.matrix.MatrixMath;
 
 /**
  * The representation of the line primitive
  */
 public class Line extends Primitive {
-    private Matrix iMatrix;
+    private DoubleMatrix iDoubleMatrix;
 
     {
-        this.iMatrix = new Matrix(3, 2);
+        this.iDoubleMatrix = new DoubleMatrix(3, 2);
     }
 
     @Override
-    public Matrix points() {
-        return this.iMatrix;
+    public DoubleMatrix points() {
+        return this.iDoubleMatrix;
     }
 
     @Override
-    public void transform(final Matrix pMatrix) {
-        this.iMatrix = MatrixMath.matrixMultiply(pMatrix, this.points());
+    public void transform(final DoubleMatrix pDoubleMatrix) {
+        this.iDoubleMatrix = MatrixMath.matrixMultiply(pDoubleMatrix, this.points());
     }
 
     @Override
     public Primitive copy() {
         final Line lDupe = new Line();
-        lDupe.iMatrix = this.iMatrix.copy();
+        lDupe.iDoubleMatrix = this.iDoubleMatrix.copy();
         return lDupe;
     }
 }

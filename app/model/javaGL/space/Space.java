@@ -3,7 +3,7 @@ package model.javaGL.space;
 import java.util.HashMap;
 import java.util.Map;
 
-import model.javaGL.matrix.Matrix;
+import model.javaGL.matrix.DoubleMatrix;
 import model.javaGL.mesh.Mesh;
 import model.javaGL.mesh.primitives.Primitive;
 
@@ -22,7 +22,7 @@ public class Space {
      * @param pTransition the transition matrix that will correctly translate the mesh
      *                    into this space's coordinates
      */
-    public void transformCopy(final Mesh pMesh, final Matrix pTransition) {
+    public void transformCopy(final Mesh pMesh, final DoubleMatrix pTransition) {
         final Mesh lNewMesh = new Mesh();
         for (final Primitive p : pMesh.primitives()) {
             final Primitive lCopy = p.copy();
@@ -38,7 +38,7 @@ public class Space {
      * @param pMeshName the name of the mesh
      * @param pTransform the transformation matrix
      */
-    public void transformExisting(final String pMeshName, final Matrix pTransform) {
+    public void transformExisting(final String pMeshName, final DoubleMatrix pTransform) {
         final Mesh lMesh = this.iMeshes.get(pMeshName);
         if (lMesh != null) lMesh.transform(pTransform);
     }

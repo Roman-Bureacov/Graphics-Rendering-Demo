@@ -1,7 +1,6 @@
 package model.javaGL.mesh.primitives;
 
-import model.javaGL.matrix.Matrix;
-import model.javaGL.matrix.MatrixMath;
+import model.javaGL.matrix.DoubleMatrix;
 
 /**
  * Representation of basic primitives.
@@ -17,15 +16,15 @@ public abstract class Primitive {
      * Returns the matrix representing this primitive.
      * @return the points as column vectors. No sorting is guaranteed.
      */
-    public abstract Matrix points();
+    public abstract DoubleMatrix points();
 
     /**
      * Applies a matrix transformation to the set of points
      * defining this primitive.
-     * @param pMatrix the matrix representing the linear transformation
+     * @param pDoubleMatrix the matrix representing the linear transformation
      * @return the resulting transformation
      */
-    public abstract void transform(final Matrix pMatrix);
+    public abstract void transform(final DoubleMatrix pDoubleMatrix);
 
     /**
      * Gets the color value from this primitive

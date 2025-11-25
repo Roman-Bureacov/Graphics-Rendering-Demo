@@ -1,6 +1,6 @@
 package model.javaGL.mesh.primitives;
 
-import model.javaGL.matrix.Matrix;
+import model.javaGL.matrix.DoubleMatrix;
 import model.javaGL.matrix.MatrixMath;
 
 /**
@@ -11,10 +11,10 @@ import model.javaGL.matrix.MatrixMath;
  * @version 2025-11
  */
 public class Point extends Primitive {
-    private Matrix iMatrix;
+    private DoubleMatrix iDoubleMatrix;
 
     {
-        this.iMatrix = new Matrix(1, 3);
+        this.iDoubleMatrix = new DoubleMatrix(1, 3);
     }
 
     /**
@@ -25,9 +25,9 @@ public class Point extends Primitive {
      */
     public Point(final double p1, final double p2, final double p3) {
         super();
-        this.iMatrix.set(0, 0, p1);
-        this.iMatrix.set(1, 0, p2);
-        this.iMatrix.set(2, 0, p3);
+        this.iDoubleMatrix.set(0, 0, p1);
+        this.iDoubleMatrix.set(1, 0, p2);
+        this.iDoubleMatrix.set(2, 0, p3);
     }
 
     /**
@@ -38,19 +38,19 @@ public class Point extends Primitive {
     }
 
     @Override
-    public void transform(final Matrix pMatrix) {
-        this.iMatrix = MatrixMath.matrixMultiply(pMatrix, this.points());
+    public void transform(final DoubleMatrix pDoubleMatrix) {
+        this.iDoubleMatrix = MatrixMath.matrixMultiply(pDoubleMatrix, this.points());
     }
 
     @Override
     public Primitive copy() {
         final Point lDupe = new Point();
-        lDupe.iMatrix = this.iMatrix.copy();
+        lDupe.iDoubleMatrix = this.iDoubleMatrix.copy();
         return lDupe;
     }
 
     @Override
-    public Matrix points() {
-        return this.iMatrix;
+    public DoubleMatrix points() {
+        return this.iDoubleMatrix;
     }
 }

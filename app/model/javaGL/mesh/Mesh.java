@@ -3,7 +3,7 @@ package model.javaGL.mesh;
 import java.util.HashSet;
 import java.util.Set;
 
-import model.javaGL.matrix.Matrix;
+import model.javaGL.matrix.DoubleMatrix;
 import model.javaGL.mesh.primitives.Primitive;
 
 /**
@@ -71,7 +71,7 @@ public class Mesh {
      * Applies a transformation on this mesh
      * @param pTransformation the transformation matrix
      */
-    public void transform(final Matrix pTransformation) {
+    public void transform(final DoubleMatrix pTransformation) {
         for (final Primitive p: this.iPrimitives) {
             p.transform(pTransformation);
         }

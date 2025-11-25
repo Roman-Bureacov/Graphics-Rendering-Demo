@@ -1,6 +1,6 @@
 package model.javaGL.mesh.primitives;
 
-import model.javaGL.matrix.Matrix;
+import model.javaGL.matrix.DoubleMatrix;
 import model.javaGL.matrix.MatrixMath;
 
 /**
@@ -10,26 +10,26 @@ import model.javaGL.matrix.MatrixMath;
  * @version 2025-11
  */
 public final class Triangle extends Primitive {
-    private Matrix iMatrix;
+    private DoubleMatrix iDoubleMatrix;
 
     {
-        this.iMatrix = new Matrix(3, 3);
+        this.iDoubleMatrix = new DoubleMatrix(3, 3);
     }
 
     @Override
-    public Matrix points() {
-        return this.iMatrix;
+    public DoubleMatrix points() {
+        return this.iDoubleMatrix;
     }
 
     @Override
-    public void transform(final Matrix pMatrix) {
-        this.iMatrix = MatrixMath.matrixMultiply(pMatrix, this.points());
+    public void transform(final DoubleMatrix pDoubleMatrix) {
+        this.iDoubleMatrix = MatrixMath.matrixMultiply(pDoubleMatrix, this.points());
     }
 
     @Override
     public Primitive copy() {
         final Triangle lDupe = new Triangle();
-        lDupe.iMatrix = this.iMatrix.copy();
+        lDupe.iDoubleMatrix = this.iDoubleMatrix.copy();
         return lDupe;
     }
 }

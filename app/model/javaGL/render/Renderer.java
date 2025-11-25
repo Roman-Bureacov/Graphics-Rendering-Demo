@@ -11,14 +11,16 @@ import model.javaGL.space.Space;
  */
 public class Renderer {
     final Space iWorld;
+    final Raster iScreen;
 
     /**
      * Constructs a renderer with the world space provided
      * @param pSpace the world space to render
      */
-    public Renderer(final Space pSpace) {
+    public Renderer(final Space pSpace, final int pWidth, final int pHeight) {
         super();
         this.iWorld = pSpace;
+        this.iScreen = new Raster(pWidth, pHeight);
     }
 
     /**

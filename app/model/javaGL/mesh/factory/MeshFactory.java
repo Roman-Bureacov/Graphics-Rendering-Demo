@@ -1,6 +1,6 @@
 package model.javaGL.mesh.factory;
 
-import model.javaGL.matrix.Matrix;
+import model.javaGL.matrix.DoubleMatrix;
 import model.javaGL.mesh.Mesh;
 import model.javaGL.mesh.primitives.Triangle;
 
@@ -40,7 +40,7 @@ public final class MeshFactory {
             final double pX3, final double pY3, final double pZ3
     ) {
         final Triangle t = new Triangle();
-        final Matrix m = t.points();
+        final DoubleMatrix m = t.points();
         
         m.set(0, 0, pX1);
         m.set(1, 0, pY1);
