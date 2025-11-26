@@ -20,6 +20,9 @@ import javax.swing.text.BadLocationException;
 import javax.swing.text.Document;
 import javax.swing.text.DocumentFilter;
 
+import model.javaGL.matrix.DoubleMatrix;
+import model.javaGL.matrix.Matrix;
+import model.javaGL.mesh.Mesh;
 import view.Base;
 
 /**
@@ -29,6 +32,11 @@ import view.Base;
  * @version 2025-11
  */
 public class TransformationControls extends JPanel {
+    /** the name for when a transformation matrix is input and intended to be sent out */
+    public static final String MATRIX_EVENT = "matrix transformation";
+    /** the name for when a rotation matrix is input and intended to be sent out */
+    public static final String ROTATION_EVENT = "rotation transformation";
+    
     private final JPanel iMatrixTransformation = new JPanel();
     private final JPanel iRotationTransformation = new JPanel();
     private final JButton iMatrixButton = new JButton("Transform");
@@ -75,8 +83,46 @@ public class TransformationControls extends JPanel {
 
         lTabs.addTab("Rotation", this.iRotationTransformation);
         this.makeRotationTab();
+        
+        this.makeButtonActions();
 
         this.add(lTabs);
+    }
+    
+    private void makeButtonActions() {
+        this.iMatrixButton.addActionListener(
+                e -> this.firePropertyChange(MATRIX_EVENT, null, this.createMatrixRecord())
+        );
+        this.iRotationButton.addActionListener(
+                e -> this.firePropertyChange(ROTATION_EVENT, null, this.createRotationRecord())
+        );
+    }
+    
+    private matrixData createMatrixRecord() {
+        for (final JTextField field : this.iMatrixInput) {
+            if (field.getText().isEmpty()) field.setText("0");
+        }
+
+        return new matrixData(
+                Double.parseDouble(this.iMatrixInput[0].getText()),
+                Double.parseDouble(this.iMatrixInput[1].getText()),
+                Double.parseDouble(this.iMatrixInput[2].getText()),
+                Double.parseDouble(this.iMatrixInput[3].getText()),
+                Double.parseDouble(this.iMatrixInput[4].getText()),
+                Double.parseDouble(this.iMatrixInput[5].getText()),
+                Double.parseDouble(this.iMatrixInput[6].getText()),
+                Double.parseDouble(this.iMatrixInput[7].getText()),
+                Double.parseDouble(this.iMatrixInput[8].getText())
+        );
+    }
+    
+    private rotationData createRotationRecord() {
+        final rotationData.AXIS lAxis;
+        if (this.iXAxis.isSelected()) lAxis = rotationData.AXIS.X;
+        else if (this.iYAxis.isSelected()) lAxis = rotationData.AXIS.Y;
+        else lAxis = rotationData.AXIS.Z;
+            
+        return new rotationData(lAxis, Double.parseDouble(this.iRotationInput.getText()));
     }
 
     private void makeMatrixTab() {
@@ -107,6 +153,55 @@ public class TransformationControls extends JPanel {
         this.iRotationTransformation.add(lRadioGroup);
         this.iRotationTransformation.add(this.iRotationInput);
         this.iRotationTransformation.add(this.iRotationButton);
+    }
+
+    /**
+     * Record for matrix transformations intended by the transformation controls
+     */
+    public record matrixData(
+            double x1, double x2, double x3,
+            double y1, double y2, double y3,
+            double z1, double z2, double z3
+    ) {
+        /**
+         * Converts this record into a matrix
+         * @return this data as a matrix
+         */
+        public Matrix<Double> toMatrix() {
+            final Matrix<Double> lMatrix = new DoubleMatrix(3, 3);
+            lMatrix.set(0, 0, this.x1);
+            lMatrix.set(0, 1, this.x2);
+            lMatrix.set(0, 2, this.x3);
+            lMatrix.set(1, 0, this.y1);
+            lMatrix.set(1, 1, this.y2);
+            lMatrix.set(1, 2, this.y3);
+            lMatrix.set(2, 0, this.z1);
+            lMatrix.set(2, 1, this.z2);
+            lMatrix.set(2, 2, this.z3);
+            
+            return lMatrix;
+        }
+    }
+
+    /**
+     * Record for rotation transformations intended by the transformation controls
+     */
+    public record rotationData(
+            AXIS axis,
+            double amount
+    ) {
+        enum AXIS {
+            X, Y, Z
+        }
+        
+        /**
+         * Calculates the matrix for this transformation
+         * @return the resulting transformation matrix
+         */
+        public Matrix calculate() {
+            // TODO: math
+            return null;
+        }
     }
 
     /**

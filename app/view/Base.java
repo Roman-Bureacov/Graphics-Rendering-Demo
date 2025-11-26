@@ -40,7 +40,7 @@ public class Base extends JFrame implements PropertyChangeListener {
         this.iMainPanel.add(this.iTransform, BorderLayout.EAST);
         this.setContentPane(this.iMainPanel);
 
-        this.setSize(500, 500);
+        this.setSize(BASE_WIDTH, BASE_HEIGHT);
         this.setVisible(true);
     }
 
