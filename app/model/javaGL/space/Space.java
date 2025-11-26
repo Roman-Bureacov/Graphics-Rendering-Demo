@@ -1,7 +1,9 @@
 package model.javaGL.space;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import model.javaGL.matrix.DoubleMatrix;
 import model.javaGL.mesh.Mesh;
@@ -17,23 +19,7 @@ public class Space {
     final Map<String, Mesh> iMeshes = new HashMap<>();
 
     /**
-     * Copies and translates the mesh to this space's dimensions
-     * @param pMesh the mesh to translate into this space
-     * @param pTransition the transition matrix that will correctly translate the mesh
-     *                    into this space's coordinates
-     */
-    public void transformCopy(final Mesh pMesh, final DoubleMatrix pTransition) {
-        final Mesh lNewMesh = new Mesh();
-        for (final Primitive p : pMesh.primitives()) {
-            final Primitive lCopy = p.copy();
-            lCopy.transform(pTransition);
-            lNewMesh.add(lCopy);
-        }
-        this.iMeshes.put(lNewMesh.getName(), lNewMesh);
-    }
-
-    /**
-     * Performs a transformation on an existing matrix in this space.
+     * Performs a transformation on an existing mesh in this space.
      * Does nothing if the mesh does not exist
      * @param pMeshName the name of the mesh
      * @param pTransform the transformation matrix
@@ -44,10 +30,18 @@ public class Space {
     }
 
     /**
-     * Appens a mesh to the space.
+     * Appends a mesh to the space.
      * @param pMesh the mesh to append
      */
     public void addMesh(final Mesh pMesh) {
         this.iMeshes.put(pMesh.getName(), pMesh);
+    }
+
+    /**
+     * Retrieves the mesh names contained in this space
+     * @return the mesh names in this space
+     */
+    public Set<String> meshes() {
+        return this.iMeshes.keySet();
     }
 }
