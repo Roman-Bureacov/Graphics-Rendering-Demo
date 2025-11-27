@@ -38,7 +38,7 @@ public class Base extends JFrame implements PropertyChangeListener {
 
     private final JPanel iMainPanel = new JPanel();
     private final RenderPanel iRender = new RenderPanel(null);
-    private final TransformPanel iTransform = new TransformPanel(this.iWorld);
+    private final TransformPanel iTransform;
 
     /**
      * Creates a new base for the application to sit upon.
@@ -48,13 +48,14 @@ public class Base extends JFrame implements PropertyChangeListener {
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         this.setSize(BASE_WIDTH, BASE_HEIGHT);
 
+        // specifically to make the world meshes visible
+        this.setupSpace(); // set up the world
+        this.iTransform = new TransformPanel(this.iWorld); // then this can properly populate combo box
+
         this.iMainPanel.setLayout(new BorderLayout());
         this.iMainPanel.add(this.iRender, BorderLayout.WEST);
         this.iMainPanel.add(this.iTransform, BorderLayout.EAST);
         this.setContentPane(this.iMainPanel);
-
-
-        this.setupSpace();
 
         this.setVisible(true);
     }
@@ -85,7 +86,7 @@ public class Base extends JFrame implements PropertyChangeListener {
         lVerts[1].set(1, 1d);
         lVerts[2].set(2, 1d);
         lMesh.add(lTriangle);
-
+        this.iWorld.addMesh(lMesh);
     }
 
     @Override
@@ -101,7 +102,7 @@ public class Base extends JFrame implements PropertyChangeListener {
      * @param pPanel the panel in which to center all JComponents
      */
     public static void centerAllComponents(final JPanel pPanel) {
-        for (Component comp : pPanel.getComponents()) {
+        for (final Component comp : pPanel.getComponents()) {
             if (comp instanceof JComponent) {
                 ((JComponent) comp).setAlignmentX(Component.CENTER_ALIGNMENT);
             }

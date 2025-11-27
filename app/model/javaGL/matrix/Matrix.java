@@ -43,5 +43,5 @@ public interface Matrix<T> {
      * Constructs a copy of this matrix.
      * @return the duplicate of this matrix
      */
-    public Matrix<T> copy();
+    Matrix<T> copy();
 }

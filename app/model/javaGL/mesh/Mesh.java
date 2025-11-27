@@ -4,6 +4,8 @@ import java.util.HashSet;
 import java.util.Set;
 
 import model.javaGL.matrix.DoubleMatrix;
+import model.javaGL.matrix.Matrix;
+import model.javaGL.matrix.MatrixMath;
 import model.javaGL.mesh.primitives.Primitive;
 
 /**
@@ -13,11 +15,15 @@ import model.javaGL.mesh.primitives.Primitive;
  * @version 2025-11
  */
 public class Mesh {
+    private final Matrix<Double> iOriginInWorld;
+    private Matrix<Double> iTransformedOrigin;
     private final Set<Primitive> iPrimitives;
     private String iName;
 
     {
         this.iPrimitives = new HashSet<>();
+        this.iOriginInWorld = DoubleMatrix.identity(4);
+        this.iTransformedOrigin = this.iOriginInWorld;
     }
 
     /**
@@ -68,12 +74,13 @@ public class Mesh {
     }
 
     /**
-     * Applies a transformation on this mesh
+     * Applies a transformation on this mesh, specifically to this mesh's origin
      * @param pTransformation the transformation matrix
      */
     public void transform(final DoubleMatrix pTransformation) {
-        for (final Primitive p: this.iPrimitives) {
-            p.transform(pTransformation);
-        }
+        if (pTransformation.rowCount() != 4 && pTransformation.columnCount() != 4)
+            throw new IllegalArgumentException("Transformation matrices for meshes must be 4x4");
+
+        this.iTransformedOrigin = MatrixMath.matrixMultiply(pTransformation, this.iOriginInWorld);
     }
 }

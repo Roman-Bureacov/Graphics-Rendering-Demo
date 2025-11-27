@@ -1,5 +1,6 @@
 package model.javaGL.matrix;
 
+import java.text.DecimalFormat;
 import java.util.Arrays;
 
 /**
@@ -73,5 +74,22 @@ public class DoubleMatrix implements Matrix<Double> {
         }
 
         return lIdentity;
+    }
+
+    @SuppressWarnings("ForLoopReplaceableByForEach")
+    @Override
+    public String toString() {
+        final StringBuilder lStr = new StringBuilder();
+        final DecimalFormat lForm = new DecimalFormat("#.###");
+        for (int row = 0; row < this.iMatrix.length; row++) {
+            lStr.append("| ");
+            for (int col = 0; col < this.iMatrix[0].length; col++) {
+                lStr.append(lForm.format(this.iMatrix[row][col])).append(" ");
+            }
+            lStr.append("|\n");
+        }
+        lStr.deleteCharAt(lStr.length() - 1);
+
+        return lStr.toString();
     }
 }

@@ -47,7 +47,7 @@ public class TransformationControls extends JPanel {
     private final JPanel iMatrixTransformation = new JPanel();
     private final JPanel iRotationTransformation = new JPanel();
     private final JButton iMatrixButton = new JButton("Transform");
-    private final JButton iRotationButton = new JButton("Transform");
+    private final JButton iRotationButton = new JButton("Rotate");
 
 
     // matrix components
@@ -113,8 +113,9 @@ public class TransformationControls extends JPanel {
         this.iMatrixTransformation.setLayout(new BoxLayout(this.iMatrixTransformation, BoxLayout.Y_AXIS));
 
         final JPanel lPanel = new JPanel(new GridLayout(4, 4));
-        for (final JTextField jTextField : this.iMatrixInput) {
-            lPanel.add(jTextField);
+        for (final JTextField textField : this.iMatrixInput) {
+            textField.setText("0");
+            lPanel.add(textField);
         }
 
         lPanel.setAlignmentX(Component.CENTER_ALIGNMENT);
@@ -138,7 +139,16 @@ public class TransformationControls extends JPanel {
         }
 
         this.iRotationTransformation.add(lRadioGroup);
-        this.iRotationTransformation.add(this.iRotationInput);
+
+        final JPanel lInputPanel = new JPanel();
+        final int lWidth = 100;
+        final int lHeight = 25;
+        this.iRotationInput.setMaximumSize(new Dimension(lWidth, lHeight));
+        this.iRotationInput.setText("0");
+        lInputPanel.add(this.iRotationInput);
+        lInputPanel.add(new JLabel("Degrees"));
+
+        this.iRotationTransformation.add(lInputPanel);
         this.iRotationTransformation.add(this.iRotationButton);
     }
 
@@ -166,7 +176,7 @@ public class TransformationControls extends JPanel {
         if (this.iRotationInput.getText().isBlank()) this.iRotationInput.setText("0");
 
         final Matrix<Double> lInput = DoubleMatrix.identity(4);
-        final double lTheta = Double.parseDouble(this.iRotationInput.getText());
+        final double lTheta = Double.parseDouble(this.iRotationInput.getText()) * Math.PI/180d;
 
         // see: https://en.wikipedia.org/wiki/Rotation_matrix
         if (this.iXAxis.isSelected()) {

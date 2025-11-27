@@ -9,6 +9,8 @@ import javax.swing.JComboBox;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
+import model.javaGL.matrix.DoubleMatrix;
+import model.javaGL.mesh.Mesh;
 import model.javaGL.space.Space;
 
 /**
@@ -21,6 +23,10 @@ public class TransformPanel extends JPanel implements PropertyChangeListener {
     private final JComboBox<String> iSceneObjects;
     private final Space iWorld;
 
+    /**
+     * Creates a transformation panel that houses the controls for creating transformation matrices.
+     * @param pSpace the space that the transformation
+     */
     public TransformPanel(final Space pSpace) {
         super();
         this.setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
@@ -41,9 +47,12 @@ public class TransformPanel extends JPanel implements PropertyChangeListener {
         for (final String name : this.iWorld.meshes()) {
             this.iSceneObjects.addItem(name);
         }
+        this.iSceneObjects.setSelectedIndex(0);
+        lTransformHeader.add(this.iSceneObjects);
 
         // transformation tabbed pane
         final TransformationControls lTransformBody = new TransformationControls();
+        lTransformBody.addPropertyChangeListener(this);
 
         // transform button
         final JPanel lTransformFooter = new JPanel();
@@ -57,8 +66,14 @@ public class TransformPanel extends JPanel implements PropertyChangeListener {
     @Override
     public void propertyChange(final PropertyChangeEvent pEvent) {
         switch (pEvent.getPropertyName()) {
-            case TransformationControls.MATRIX_EVENT -> {} // TODO
-            case TransformationControls.ROTATION_EVENT -> {} // TODO
+            case TransformationControls.MATRIX_EVENT -> {
+                System.out.println(pEvent.getNewValue());
+                System.out.println(this.iSceneObjects.getSelectedItem());
+            }
+            case TransformationControls.ROTATION_EVENT -> {
+                System.out.println(pEvent.getNewValue());
+                System.out.println(this.iSceneObjects.getSelectedItem());
+            }
             default -> { }
         }
     }
