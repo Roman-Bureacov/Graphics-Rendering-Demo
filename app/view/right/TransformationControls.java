@@ -13,7 +13,6 @@ import javax.swing.JPanel;
 import javax.swing.JRadioButton;
 import javax.swing.JTabbedPane;
 import javax.swing.JTextField;
-import javax.swing.SwingConstants;
 import javax.swing.text.AbstractDocument;
 import javax.swing.text.AttributeSet;
 import javax.swing.text.BadLocationException;
@@ -22,7 +21,6 @@ import javax.swing.text.DocumentFilter;
 
 import model.javaGL.matrix.DoubleMatrix;
 import model.javaGL.matrix.Matrix;
-import model.javaGL.mesh.Mesh;
 import view.Base;
 
 /**
@@ -36,15 +34,24 @@ public class TransformationControls extends JPanel {
     public static final String MATRIX_EVENT = "matrix transformation";
     /** the name for when a rotation matrix is input and intended to be sent out */
     public static final String ROTATION_EVENT = "rotation transformation";
-    
+
+    /**
+     * denotes the number of rows and columns as a product, for use with the JTextField
+     * array that denotes the matrix input.
+     * <br>
+     * The product 4*4-1, the minus 1 being for array traversal.
+     */
+    private static final int ROWCOLS = 4*4 - 1;
+
     private final JPanel iMatrixTransformation = new JPanel();
     private final JPanel iRotationTransformation = new JPanel();
     private final JButton iMatrixButton = new JButton("Transform");
     private final JButton iRotationButton = new JButton("Transform");
 
+
     // matrix components
     /** a 3x3 matrix for transformation input */
-    private final JTextField[] iMatrixInput = new JTextField[9];
+    private final JTextField[] iMatrixInput = new JTextField[4*4];
 
     // rotation components
     private final ButtonGroup iAxisGroup = new ButtonGroup();
@@ -91,43 +98,16 @@ public class TransformationControls extends JPanel {
     
     private void makeButtonActions() {
         this.iMatrixButton.addActionListener(
-                e -> this.firePropertyChange(MATRIX_EVENT, null, this.createMatrixRecord())
+                e -> this.firePropertyChange(MATRIX_EVENT, null, this.getTransformationMatrix())
         );
         this.iRotationButton.addActionListener(
-                e -> this.firePropertyChange(ROTATION_EVENT, null, this.createRotationRecord())
+                e -> this.firePropertyChange(ROTATION_EVENT, null, this.getRotationMatrix())
         );
     }
     
-    private matrixData createMatrixRecord() {
-        for (final JTextField field : this.iMatrixInput) {
-            if (field.getText().isEmpty()) field.setText("0");
-        }
-
-        return new matrixData(
-                Double.parseDouble(this.iMatrixInput[0].getText()),
-                Double.parseDouble(this.iMatrixInput[1].getText()),
-                Double.parseDouble(this.iMatrixInput[2].getText()),
-                Double.parseDouble(this.iMatrixInput[3].getText()),
-                Double.parseDouble(this.iMatrixInput[4].getText()),
-                Double.parseDouble(this.iMatrixInput[5].getText()),
-                Double.parseDouble(this.iMatrixInput[6].getText()),
-                Double.parseDouble(this.iMatrixInput[7].getText()),
-                Double.parseDouble(this.iMatrixInput[8].getText())
-        );
-    }
-    
-    private rotationData createRotationRecord() {
-        final rotationData.AXIS lAxis;
-        if (this.iXAxis.isSelected()) lAxis = rotationData.AXIS.X;
-        else if (this.iYAxis.isSelected()) lAxis = rotationData.AXIS.Y;
-        else lAxis = rotationData.AXIS.Z;
-            
-        return new rotationData(lAxis, Double.parseDouble(this.iRotationInput.getText()));
-    }
-
     private void makeMatrixTab() {
         this.iMatrixTransformation.setLayout(new BoxLayout(this.iMatrixTransformation, BoxLayout.Y_AXIS));
-        final JPanel lPanel = new JPanel(new GridLayout(3, 3));
+        final JPanel lPanel = new JPanel(new GridLayout(4, 4));
         for (final JTextField jTextField : this.iMatrixInput) {
             lPanel.add(jTextField);
         }
@@ -155,53 +135,51 @@ public class TransformationControls extends JPanel {
         this.iRotationTransformation.add(this.iRotationButton);
     }
 
-    /**
-     * Record for matrix transformations intended by the transformation controls
-     */
-    public record matrixData(
-            double x1, double x2, double x3,
-            double y1, double y2, double y3,
-            double z1, double z2, double z3
-    ) {
-        /**
-         * Converts this record into a matrix
-         * @return this data as a matrix
-         */
-        public Matrix<Double> toMatrix() {
-            final Matrix<Double> lMatrix = new DoubleMatrix(3, 3);
-            lMatrix.set(0, 0, this.x1);
-            lMatrix.set(0, 1, this.x2);
-            lMatrix.set(0, 2, this.x3);
-            lMatrix.set(1, 0, this.y1);
-            lMatrix.set(1, 1, this.y2);
-            lMatrix.set(1, 2, this.y3);
-            lMatrix.set(2, 0, this.z1);
-            lMatrix.set(2, 1, this.z2);
-            lMatrix.set(2, 2, this.z3);
-            
-            return lMatrix;
+    private Matrix<Double> getTransformationMatrix() {
+        for (final JTextField field : this.iMatrixInput) {
+            if (field.getText().isBlank()) field.setText("0");
         }
+
+        final Matrix<Double> lInput = new DoubleMatrix(4, 4);
+        for (int i = 0, row = 0, col = 0;
+             i < ROWCOLS;
+             i++, row = i / 4, col = i % 4
+        ) {
+            lInput.set(row, col, Double.parseDouble(this.iMatrixInput[row * 4 + col].getText()));
+        }
+
+        return lInput;
     }
 
     /**
-     * Record for rotation transformations intended by the transformation controls
+     * Computes the rotation transformation matrix about an axis
+     * @return the transformation matrix
      */
-    public record rotationData(
-            AXIS axis,
-            double amount
-    ) {
-        enum AXIS {
-            X, Y, Z
+    private Matrix<Double> getRotationMatrix() {
+        if (this.iRotationInput.getText().isBlank()) this.iRotationInput.setText("0");
+
+        final Matrix<Double> lInput = DoubleMatrix.identity(4);
+        final double lTheta = Double.parseDouble(this.iRotationInput.getText());
+
+        // see: https://en.wikipedia.org/wiki/Rotation_matrix
+        if (this.iXAxis.isSelected()) {
+            lInput.set(1, 1, Math.cos(lTheta));
+            lInput.set(1, 2, -Math.sin(lTheta));
+            lInput.set(2, 1, Math.sin(lTheta));
+            lInput.set(2, 2, Math.cos(lTheta));
+        } else if (this.iYAxis.isSelected()) {
+            lInput.set(0, 0, Math.cos(lTheta));
+            lInput.set(0, 2, Math.sin(lTheta));
+            lInput.set(2, 0, -Math.sin(lTheta));
+            lInput.set(2, 2, Math.cos(lTheta));
+        } else if (this.iZAxis.isSelected()) {
+            lInput.set(0, 0, Math.cos(lTheta));
+            lInput.set(0, 1, -Math.sin(lTheta));
+            lInput.set(1, 0, Math.sin(lTheta));
+            lInput.set(1, 1, Math.cos(lTheta));
         }
-        
-        /**
-         * Calculates the matrix for this transformation
-         * @return the resulting transformation matrix
-         */
-        public Matrix calculate() {
-            // TODO: math
-            return null;
-        }
+
+        return lInput;
     }
 
     /**
