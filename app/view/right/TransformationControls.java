@@ -1,6 +1,8 @@
 package view.right;
 
+import java.awt.Component;
 import java.awt.Dimension;
+import java.awt.Font;
 import java.awt.GridLayout;
 import java.util.Iterator;
 
@@ -8,11 +10,13 @@ import javax.swing.AbstractButton;
 import javax.swing.BoxLayout;
 import javax.swing.ButtonGroup;
 import javax.swing.JButton;
+import javax.swing.JComponent;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JRadioButton;
 import javax.swing.JTabbedPane;
 import javax.swing.JTextField;
+import javax.swing.SwingConstants;
 import javax.swing.text.AbstractDocument;
 import javax.swing.text.AttributeSet;
 import javax.swing.text.BadLocationException;
@@ -27,7 +31,7 @@ import view.Base;
  * A panel depicting the transformation controls for the scene.
  * <br>
  * The matrix is column-major order. The columns themselves depict the axis that
- * are manipulated.
+ * are manipulated. Rotations follow the right-hand rule.
  *
  * @author Roman Bureacov
  * @version 2025-11
@@ -114,19 +118,32 @@ public class TransformationControls extends JPanel {
     private void makeMatrixTab() {
         this.iMatrixTransformation.setLayout(new BoxLayout(this.iMatrixTransformation, BoxLayout.Y_AXIS));
 
-        final JPanel lPanel = new JPanel(new GridLayout(4, 4));
+        final JPanel lMatrixPanel = new JPanel(new GridLayout(5, 4));
+        lMatrixPanel.add(new JLabel("x"));
+        lMatrixPanel.add(new JLabel("y"));
+        lMatrixPanel.add(new JLabel("z"));
+        lMatrixPanel.add(new JLabel("w"));
+        for (final Component c : lMatrixPanel.getComponents()) {
+            if (c instanceof JLabel) {
+                final JLabel lComp = (JLabel) c;
+                final int lFontSize = 18;
+                lComp.setHorizontalAlignment(SwingConstants.CENTER);
+                lComp.setFont(new Font("Cambria", Font.PLAIN, lFontSize ));
+            }
+        }
+
         for (final JTextField textField : this.iMatrixInput) {
             textField.setText("0");
-            lPanel.add(textField);
+            lMatrixPanel.add(textField);
         }
-        // disable last column
+        // disable last row
         this.iMatrixInput[ROWCOLS].setText("1");
         for (int i = 0; i < 4; i++) {
             this.iMatrixInput[4*3 + i].setEnabled(false);
         }
 
 
-        this.iMatrixTransformation.add(lPanel);
+        this.iMatrixTransformation.add(lMatrixPanel);
         this.iMatrixTransformation.add(this.iMatrixButton);
     }
 
