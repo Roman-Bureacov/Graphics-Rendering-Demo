@@ -24,7 +24,10 @@ import model.javaGL.matrix.Matrix;
 import view.Base;
 
 /**
- * A panel depicting the transformation controls for the scene
+ * A panel depicting the transformation controls for the scene.
+ * <br>
+ * The matrix is column-major order. The columns themselves depict the axis that
+ * are manipulated.
  *
  * @author Roman Bureacov
  * @version 2025-11
@@ -32,8 +35,6 @@ import view.Base;
 public class TransformationControls extends JPanel {
     /** the name for when a transformation matrix is input and intended to be sent out */
     public static final String TRANSFORM_EVENT = "matrix transformation";
-    /** the name for when a matrix addition is input and intended to be sent out */
-    public static final String ADD_EVENT = "matrix addition";
     /** the name for when a rotation matrix is input and intended to be sent out */
     public static final String ROTATION_EVENT = "rotation transformation";
 
@@ -47,8 +48,7 @@ public class TransformationControls extends JPanel {
 
     private final JPanel iMatrixTransformation = new JPanel();
     private final JPanel iRotationTransformation = new JPanel();
-    private final JButton iMatrixAddButton = new JButton("Add");
-    private final JButton iMatrixTransButton = new JButton("Transform");
+    private final JButton iMatrixButton = new JButton("Transform");
     private final JButton iRotationButton = new JButton("Rotate");
 
 
@@ -103,14 +103,11 @@ public class TransformationControls extends JPanel {
     }
     
     private void makeButtonActions() {
-        this.iMatrixTransButton.addActionListener(
+        this.iMatrixButton.addActionListener(
                 e -> this.firePropertyChange(TRANSFORM_EVENT, null, this.getTransformationMatrix())
         );
         this.iRotationButton.addActionListener(
                 e -> this.firePropertyChange(ROTATION_EVENT, null, this.getRotationMatrix())
-        );
-        this.iMatrixAddButton.addActionListener(
-                e -> this.firePropertyChange(ADD_EVENT, null, this.getTransformationMatrix())
         );
     }
     
@@ -125,16 +122,12 @@ public class TransformationControls extends JPanel {
         // disable last column
         this.iMatrixInput[ROWCOLS].setText("1");
         for (int i = 0; i < 4; i++) {
-            this.iMatrixInput[3 + 4 * i].setEnabled(false);
+            this.iMatrixInput[4*3 + i].setEnabled(false);
         }
 
-        final JPanel lButtonPanel = new JPanel();
-        lButtonPanel.setLayout(new BoxLayout(lButtonPanel, BoxLayout.X_AXIS));
-        lButtonPanel.add(this.iMatrixTransButton);
-        lButtonPanel.add(this.iMatrixAddButton);
 
         this.iMatrixTransformation.add(lPanel);
-        this.iMatrixTransformation.add(lButtonPanel);
+        this.iMatrixTransformation.add(this.iMatrixButton);
     }
 
     private void makeRotationTab() {

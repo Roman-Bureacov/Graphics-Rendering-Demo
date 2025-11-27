@@ -71,12 +71,7 @@ public class TransformPanel extends JPanel implements PropertyChangeListener {
                             (String) this.iSceneObjects.getSelectedItem(),
                             (Matrix<Double>) pEvent.getNewValue()
                     );
-            case TransformationControls.ADD_EVENT ->
-                this.iWorld.addTransformExisting(
-                        (String) this.iSceneObjects.getSelectedItem(),
-                        (Matrix<Double>) pEvent.getNewValue()
-                );
-            default -> { }
+            default -> {}
         }
     }
 }
