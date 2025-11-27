@@ -1,13 +1,11 @@
 package model.javaGL.space;
 
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-import model.javaGL.matrix.DoubleMatrix;
+import model.javaGL.matrix.Matrix;
 import model.javaGL.mesh.Mesh;
-import model.javaGL.mesh.primitives.Primitive;
 
 /**
  * Representation of a space.
@@ -20,13 +18,23 @@ public class Space {
 
     /**
      * Performs a transformation on an existing mesh in this space.
-     * Does nothing if the mesh does not exist
+     * Does nothing if the mesh does not exist.
      * @param pMeshName the name of the mesh
      * @param pTransform the transformation matrix
      */
-    public void transformExisting(final String pMeshName, final DoubleMatrix pTransform) {
+    public void transformExisting(final String pMeshName, final Matrix<Double> pTransform) {
         final Mesh lMesh = this.iMeshes.get(pMeshName);
         if (lMesh != null) lMesh.transform(pTransform);
+    }
+
+    /**
+     * Adds the matrix to an existing mesh transform. Does nothing if the mesh does not exist.
+     * @param pMeshName the mesh to transform
+     * @param pTransform the matrix to add
+     */
+    public void addTransformExisting(final String pMeshName, final Matrix<Double> pTransform) {
+        final Mesh lMesh = this.iMeshes.get(pMeshName);
+        if (lMesh != null) lMesh.addTransfrom(pTransform);
     }
 
     /**

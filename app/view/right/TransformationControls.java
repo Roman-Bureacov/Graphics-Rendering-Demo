@@ -1,6 +1,5 @@
 package view.right;
 
-import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.GridLayout;
 import java.util.Iterator;
@@ -32,7 +31,9 @@ import view.Base;
  */
 public class TransformationControls extends JPanel {
     /** the name for when a transformation matrix is input and intended to be sent out */
-    public static final String MATRIX_EVENT = "matrix transformation";
+    public static final String TRANSFORM_EVENT = "matrix transformation";
+    /** the name for when a matrix addition is input and intended to be sent out */
+    public static final String ADD_EVENT = "matrix addition";
     /** the name for when a rotation matrix is input and intended to be sent out */
     public static final String ROTATION_EVENT = "rotation transformation";
 
@@ -46,7 +47,8 @@ public class TransformationControls extends JPanel {
 
     private final JPanel iMatrixTransformation = new JPanel();
     private final JPanel iRotationTransformation = new JPanel();
-    private final JButton iMatrixButton = new JButton("Transform");
+    private final JButton iMatrixAddButton = new JButton("Add");
+    private final JButton iMatrixTransButton = new JButton("Transform");
     private final JButton iRotationButton = new JButton("Rotate");
 
 
@@ -101,11 +103,14 @@ public class TransformationControls extends JPanel {
     }
     
     private void makeButtonActions() {
-        this.iMatrixButton.addActionListener(
-                e -> this.firePropertyChange(MATRIX_EVENT, null, this.getTransformationMatrix())
+        this.iMatrixTransButton.addActionListener(
+                e -> this.firePropertyChange(TRANSFORM_EVENT, null, this.getTransformationMatrix())
         );
         this.iRotationButton.addActionListener(
                 e -> this.firePropertyChange(ROTATION_EVENT, null, this.getRotationMatrix())
+        );
+        this.iMatrixAddButton.addActionListener(
+                e -> this.firePropertyChange(ADD_EVENT, null, this.getTransformationMatrix())
         );
     }
     
@@ -117,12 +122,19 @@ public class TransformationControls extends JPanel {
             textField.setText("0");
             lPanel.add(textField);
         }
+        // disable last column
+        this.iMatrixInput[ROWCOLS].setText("1");
+        for (int i = 0; i < 4; i++) {
+            this.iMatrixInput[3 + 4 * i].setEnabled(false);
+        }
 
-        lPanel.setAlignmentX(Component.CENTER_ALIGNMENT);
-        this.iMatrixButton.setAlignmentX(Component.CENTER_ALIGNMENT);
+        final JPanel lButtonPanel = new JPanel();
+        lButtonPanel.setLayout(new BoxLayout(lButtonPanel, BoxLayout.X_AXIS));
+        lButtonPanel.add(this.iMatrixTransButton);
+        lButtonPanel.add(this.iMatrixAddButton);
 
         this.iMatrixTransformation.add(lPanel);
-        this.iMatrixTransformation.add(this.iMatrixButton);
+        this.iMatrixTransformation.add(lButtonPanel);
     }
 
     private void makeRotationTab() {

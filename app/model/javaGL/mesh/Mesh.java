@@ -77,10 +77,18 @@ public class Mesh {
      * Applies a transformation on this mesh, specifically to this mesh's origin
      * @param pTransformation the transformation matrix
      */
-    public void transform(final DoubleMatrix pTransformation) {
+    public void transform(final Matrix<Double> pTransformation) {
         if (pTransformation.rowCount() != 4 && pTransformation.columnCount() != 4)
             throw new IllegalArgumentException("Transformation matrices for meshes must be 4x4");
 
         this.iTransformedOrigin = MatrixMath.matrixMultiply(pTransformation, this.iTransformedOrigin);
+    }
+
+    /**
+     * Adds the matrix to this mesh's transform
+     * @param pTransform the matrix to add
+     */
+    public void addTransfrom(final Matrix<Double> pTransform) {
+        this.iTransformedOrigin = MatrixMath.addMatrix(this.iTransformedOrigin, pTransform);
     }
 }

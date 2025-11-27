@@ -2,15 +2,13 @@ package view.right;
 
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
-import java.beans.PropertyChangeSupport;
 
 import javax.swing.BoxLayout;
 import javax.swing.JComboBox;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
-import model.javaGL.matrix.DoubleMatrix;
-import model.javaGL.mesh.Mesh;
+import model.javaGL.matrix.Matrix;
 import model.javaGL.space.Space;
 
 /**
@@ -63,17 +61,21 @@ public class TransformPanel extends JPanel implements PropertyChangeListener {
         this.add(lTransformFooter);
     }
 
+    @SuppressWarnings("unchecked")
     @Override
     public void propertyChange(final PropertyChangeEvent pEvent) {
         switch (pEvent.getPropertyName()) {
-            case TransformationControls.MATRIX_EVENT -> {
-                System.out.println(pEvent.getNewValue());
-                System.out.println(this.iSceneObjects.getSelectedItem());
-            }
-            case TransformationControls.ROTATION_EVENT -> {
-                System.out.println(pEvent.getNewValue());
-                System.out.println(this.iSceneObjects.getSelectedItem());
-            }
+            case TransformationControls.TRANSFORM_EVENT,
+                 TransformationControls.ROTATION_EVENT ->
+                    this.iWorld.transformExisting(
+                            (String) this.iSceneObjects.getSelectedItem(),
+                            (Matrix<Double>) pEvent.getNewValue()
+                    );
+            case TransformationControls.ADD_EVENT ->
+                this.iWorld.addTransformExisting(
+                        (String) this.iSceneObjects.getSelectedItem(),
+                        (Matrix<Double>) pEvent.getNewValue()
+                );
             default -> { }
         }
     }

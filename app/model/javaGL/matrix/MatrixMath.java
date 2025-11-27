@@ -91,4 +91,24 @@ public final class MatrixMath {
 
         return lResult;
     }
+
+    public static Matrix<Double> addMatrix(final Matrix<Double> pLeft, final Matrix<Double> pRight) {
+        final int lRows = pLeft.rowCount();
+        final int lCols = pLeft.columnCount();
+
+        if (lRows != pRight.rowCount())
+            throw new IllegalArgumentException("Rows of matrices must match for addition");
+        if (lCols != pRight.columnCount())
+            throw new IllegalArgumentException("Columns of matrices must match for addition");
+
+        final Matrix<Double> lResult = new DoubleMatrix(lRows, lCols);
+
+        for (int row = 0; row < lRows; row++) {
+            for (int col = 0; col < lCols; col++) {
+                lResult.set(row, col, pLeft.get(row, col) + pRight.get(row, col));
+            }
+        }
+
+        return lResult;
+    }
 }
