@@ -1,6 +1,7 @@
 package model.javaGL.mesh.factory;
 
 import model.javaGL.matrix.DoubleMatrix;
+import model.javaGL.matrix.Matrix;
 import model.javaGL.mesh.Mesh;
 import model.javaGL.mesh.primitives.Triangle;
 
@@ -8,6 +9,8 @@ import model.javaGL.mesh.primitives.Triangle;
  * Static class dedicated to making pre-defined meshes.
  */
 public final class MeshFactory {
+    /** name for the chair object */
+    public final static String CHAIR = "chair";
 
     /**
      * Constructs and returns the basic mesh object asked for.
@@ -16,7 +19,7 @@ public final class MeshFactory {
      */
     public static Mesh create(final String name) {
         return switch(name) {
-            case "chair" -> new Chair();
+            case CHAIR -> new Chair();
             default -> throw new IllegalArgumentException("No such mesh");
         };
     }
@@ -40,19 +43,19 @@ public final class MeshFactory {
             final double pX3, final double pY3, final double pZ3
     ) {
         final Triangle t = new Triangle();
-        final DoubleMatrix m = t.points();
+        final Matrix<Double>[] m = t.points();
         
-        m.set(0, 0, pX1);
-        m.set(1, 0, pY1);
-        m.set(2, 0, pZ1);
+        m[0].set(0, 0, pX1);
+        m[0].set(1, 0, pY1);
+        m[0].set(2, 0, pZ1);
 
-        m.set(0, 1, pX2);
-        m.set(1, 1, pY2);
-        m.set(2, 1, pZ2);
+        m[1].set(0, 0, pX2);
+        m[1].set(1, 0, pY2);
+        m[1].set(2, 0, pZ2);
 
-        m.set(0, 2, pX3);
-        m.set(1, 2, pY3);
-        m.set(2, 2, pZ3);
+        m[2].set(0, 0, pX3);
+        m[2].set(1, 0, pY3);
+        m[2].set(2, 0, pZ3);
         
         return t;
     }
