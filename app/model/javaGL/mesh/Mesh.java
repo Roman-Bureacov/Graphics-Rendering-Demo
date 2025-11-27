@@ -81,6 +81,6 @@ public class Mesh {
         if (pTransformation.rowCount() != 4 && pTransformation.columnCount() != 4)
             throw new IllegalArgumentException("Transformation matrices for meshes must be 4x4");
 
-        this.iTransformedOrigin = MatrixMath.matrixMultiply(pTransformation, this.iOriginInWorld);
+        this.iTransformedOrigin = MatrixMath.matrixMultiply(pTransformation, this.iTransformedOrigin);
     }
 }
