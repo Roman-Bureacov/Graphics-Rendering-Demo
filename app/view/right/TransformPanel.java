@@ -38,11 +38,9 @@ public class TransformPanel extends JPanel implements PropertyChangeListener {
         final JPanel lTransformHeader = new JPanel();
         lTransformHeader.setLayout(new BoxLayout(lTransformHeader, BoxLayout.X_AXIS));
         lTransformHeader.add(new JLabel("Scene Object:"));
-        /* TODO: refactor meshes object
         for (final String name : this.iWorld.meshes()) {
             this.iSceneObjects.addItem(name);
         }
-         */
 
         // transformation tabbed pane
         final TransformationControls lTransformBody = new TransformationControls();

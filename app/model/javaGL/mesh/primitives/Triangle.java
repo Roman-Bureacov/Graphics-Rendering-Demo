@@ -1,6 +1,5 @@
 package model.javaGL.mesh.primitives;
 
-import model.javaGL.matrix.DoubleMatrix;
 import model.javaGL.matrix.Matrix;
 import model.javaGL.matrix.MatrixMath;
 import model.javaGL.matrix.Vertex;
@@ -12,7 +11,7 @@ import model.javaGL.matrix.Vertex;
  * @version 2025-22
  */
 public final class Triangle extends Primitive {
-    private Matrix<Double>[] iVertices;
+    private Vertex[] iVertices;
 
     {
         this.iVertices = new Vertex[3];
@@ -22,16 +21,16 @@ public final class Triangle extends Primitive {
     }
 
     @Override
-    public Matrix<Double>[] points() {
+    public Vertex[] points() {
         return this.iVertices;
     }
 
     @Override
-    public Matrix<Double>[] transformCopy(final Matrix<Double> pTransform) {
-        final Matrix<Double>[] lCopy = new Vertex[3];
-        lCopy[0] = MatrixMath.matrixMultiply(pTransform, this.iVertices[0]);
-        lCopy[1] = MatrixMath.matrixMultiply(pTransform, this.iVertices[1]);
-        lCopy[2] = MatrixMath.matrixMultiply(pTransform, this.iVertices[2]);
+    public Vertex[] transformCopy(final Matrix<Double> pTransform) {
+        final Vertex[] lCopy = new Vertex[3];
+        lCopy[0] = MatrixMath.vertexMultiply(pTransform, this.iVertices[0]);
+        lCopy[1] = MatrixMath.vertexMultiply(pTransform, this.iVertices[1]);
+        lCopy[2] = MatrixMath.vertexMultiply(pTransform, this.iVertices[2]);
         return lCopy;
     }
 

@@ -1,7 +1,5 @@
 package model.javaGL.mesh.primitives;
 
-import java.util.Arrays;
-
 import model.javaGL.matrix.DoubleMatrix;
 import model.javaGL.matrix.Matrix;
 import model.javaGL.matrix.MatrixMath;
@@ -15,7 +13,7 @@ import model.javaGL.matrix.Vertex;
  * @version 2025-11
  */
 public class Point extends Primitive {
-    private Matrix<Double>[] iVertices;
+    private Vertex[] iVertices;
 
     {
         this.iVertices = new Vertex[1];
@@ -49,8 +47,8 @@ public class Point extends Primitive {
     }
 
     @Override
-    public Matrix<Double>[] transformCopy(final Matrix<Double> pTransform) {
-        return new DoubleMatrix[] {(DoubleMatrix) MatrixMath.matrixMultiply(pTransform, this.iVertices[0])};
+    public Vertex[] transformCopy(final Matrix<Double> pTransform) {
+        return new Vertex[] {MatrixMath.vertexMultiply(pTransform, this.iVertices[0])};
     }
 
     @Override
@@ -61,7 +59,7 @@ public class Point extends Primitive {
     }
 
     @Override
-    public Matrix<Double>[] points() {
+    public Vertex[] points() {
         return this.iVertices;
     }
 }

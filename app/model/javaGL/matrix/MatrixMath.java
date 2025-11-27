@@ -69,4 +69,26 @@ public final class MatrixMath {
 
         return lResult;
     }
+
+    /**
+     * Performs a matrix multiplication with a vertex. Ignores the fourth row of the vertex matrix.
+     * @param pTransformation the transformation matrix
+     * @param pVertex the vertex to transform
+     * @return the resulting vertex
+     */
+    public static Vertex vertexMultiply(final Matrix<Double> pTransformation, final Vertex pVertex) {
+        if (pTransformation.rowCount() != 4 && pTransformation.columnCount() != 4)
+            throw new IllegalArgumentException("transformation matrix must be 4x4");
+
+        final Vertex lResult = new Vertex();
+        for (int row = 0; row < 4; row++) {
+            double lSum = 0;
+            for (int col = 0; col < 4; col++) {
+                lSum += pTransformation.get(row, col) * pVertex.get(col);
+            }
+            lResult.set(row, lSum);
+        }
+
+        return lResult;
+    }
 }

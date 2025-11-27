@@ -32,6 +32,24 @@ public class Vertex implements Matrix<Double> {
         this.iVertex[2] = pZ;
     }
 
+    /**
+     * Convenience method for setting the vertex value
+     * @param pRow the row to set
+     * @param pValue the value to set
+     */
+    public void set(final int pRow, final double pValue) {
+        this.iVertex[pRow] = pValue;
+    }
+
+    /**
+     * Convenience method for getting the vertex values
+     * @param pRow the row to get
+     * @return the value at the row
+     */
+    public double get(final int pRow) {
+        return this.iVertex[pRow];
+    }
+
     @Override
     public void set(final int pRow, final int pCol, final Double pValue) {
         if (pCol > 0) throw new IndexOutOfBoundsException("column argument out of bounds for vertex");
