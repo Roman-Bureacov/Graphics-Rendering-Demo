@@ -19,7 +19,7 @@ public final class MatrixMath {
      * @return the resulting matrix product
      * @throws IllegalArgumentException if the matrix sizes are invalid
      */
-    public static DoubleMatrix matrixMultiply(
+    public static Matrix<Double> matrixMultiply(
             final Matrix<Double> pLeftRealMatrix,
             final Matrix<Double> pRightRealMatrix
             )

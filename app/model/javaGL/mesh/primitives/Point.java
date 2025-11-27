@@ -1,7 +1,11 @@
 package model.javaGL.mesh.primitives;
 
+import java.util.Arrays;
+
 import model.javaGL.matrix.DoubleMatrix;
+import model.javaGL.matrix.Matrix;
 import model.javaGL.matrix.MatrixMath;
+import model.javaGL.matrix.Vertex;
 
 /**
  * The representation of a point in space. Points in space
@@ -11,10 +15,11 @@ import model.javaGL.matrix.MatrixMath;
  * @version 2025-11
  */
 public class Point extends Primitive {
-    private DoubleMatrix iDoubleMatrix;
+    private Matrix<Double>[] iVertices;
 
     {
-        this.iDoubleMatrix = new DoubleMatrix(1, 3);
+        this.iVertices = new Vertex[1];
+        this.iVertices[0] = new Vertex();
     }
 
     /**
@@ -25,9 +30,10 @@ public class Point extends Primitive {
      */
     public Point(final double p1, final double p2, final double p3) {
         super();
-        this.iDoubleMatrix.set(0, 0, p1);
-        this.iDoubleMatrix.set(1, 0, p2);
-        this.iDoubleMatrix.set(2, 0, p3);
+        final Matrix<Double> lMatrix = this.iVertices[0];
+        lMatrix.set(0, 0, p1);
+        lMatrix.set(1, 0, p2);
+        lMatrix.set(2, 0, p3);
     }
 
     /**
@@ -38,19 +44,24 @@ public class Point extends Primitive {
     }
 
     @Override
-    public void transform(final DoubleMatrix pDoubleMatrix) {
-        this.iDoubleMatrix = MatrixMath.matrixMultiply(pDoubleMatrix, this.points());
+    public void transform(final Matrix<Double> pTransform) {
+        this.iVertices = this.transformCopy(pTransform);
+    }
+
+    @Override
+    public Matrix<Double>[] transformCopy(final Matrix<Double> pTransform) {
+        return new DoubleMatrix[] {(DoubleMatrix) MatrixMath.matrixMultiply(pTransform, this.iVertices[0])};
     }
 
     @Override
     public Primitive copy() {
         final Point lDupe = new Point();
-        lDupe.iDoubleMatrix = this.iDoubleMatrix.copy();
+        lDupe.iVertices[0] = this.iVertices[0].copy();
         return lDupe;
     }
 
     @Override
-    public DoubleMatrix points() {
-        return this.iDoubleMatrix;
+    public Matrix<Double>[] points() {
+        return this.iVertices;
     }
 }
