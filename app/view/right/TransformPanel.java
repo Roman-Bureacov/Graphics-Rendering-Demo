@@ -58,6 +58,10 @@ public class TransformPanel extends JPanel implements PropertyChangeListener {
 
     @Override
     public void propertyChange(final PropertyChangeEvent pEvent) {
-
+        switch (pEvent.getPropertyName()) {
+            case TransformationControls.MATRIX_EVENT -> {} // TODO
+            case TransformationControls.ROTATION_EVENT -> {} // TODO
+            default -> { }
+        }
     }
 }
