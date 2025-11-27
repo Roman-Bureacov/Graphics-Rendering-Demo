@@ -2,10 +2,12 @@ package view;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
+import java.awt.Component;
 import java.awt.Toolkit;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 
+import javax.swing.JComponent;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 
@@ -91,6 +93,18 @@ public class Base extends JFrame implements PropertyChangeListener {
         switch (pEvent.getPropertyName()) {
 
             default -> { }
+        }
+    }
+
+    /**
+     * Utility method to center-align all components of a panel by x alignment
+     * @param pPanel the panel in which to center all JComponents
+     */
+    public static void centerAllComponents(final JPanel pPanel) {
+        for (Component comp : pPanel.getComponents()) {
+            if (comp instanceof JComponent) {
+                ((JComponent) comp).setAlignmentX(Component.CENTER_ALIGNMENT);
+            }
         }
     }
 }

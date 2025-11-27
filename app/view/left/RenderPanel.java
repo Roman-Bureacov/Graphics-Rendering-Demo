@@ -5,6 +5,7 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 
 import model.javaGL.render.Renderer;
+import view.Base;
 
 /**
  * Creates a new panel that will house the rendering information.
@@ -28,6 +29,8 @@ public class RenderPanel extends JPanel {
 
         this.setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
         // this.add(render)
+
+        Base.centerAllComponents(this);
     }
 
     public String getStats() {

@@ -1,5 +1,6 @@
 package view.right;
 
+import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.GridLayout;
 import java.util.Iterator;
@@ -94,6 +95,9 @@ public class TransformationControls extends JPanel {
         this.makeButtonActions();
 
         this.add(lTabs);
+
+        Base.centerAllComponents(this.iMatrixTransformation);
+        Base.centerAllComponents(this.iRotationTransformation);
     }
     
     private void makeButtonActions() {
@@ -107,13 +111,16 @@ public class TransformationControls extends JPanel {
     
     private void makeMatrixTab() {
         this.iMatrixTransformation.setLayout(new BoxLayout(this.iMatrixTransformation, BoxLayout.Y_AXIS));
+
         final JPanel lPanel = new JPanel(new GridLayout(4, 4));
         for (final JTextField jTextField : this.iMatrixInput) {
             lPanel.add(jTextField);
         }
 
-        this.iMatrixTransformation.add(lPanel);
+        lPanel.setAlignmentX(Component.CENTER_ALIGNMENT);
+        this.iMatrixButton.setAlignmentX(Component.CENTER_ALIGNMENT);
 
+        this.iMatrixTransformation.add(lPanel);
         this.iMatrixTransformation.add(this.iMatrixButton);
     }
 
