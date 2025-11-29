@@ -15,15 +15,13 @@ import model.javaGL.mesh.primitives.Primitive;
  * @version 2025-11
  */
 public class Mesh {
-    private final Matrix<Double> iOriginInWorld;
     private Matrix<Double> iTransformedOrigin;
     private final Set<Primitive> iPrimitives;
     private String iName;
 
     {
         this.iPrimitives = new HashSet<>();
-        this.iOriginInWorld = DoubleMatrix.identity(4);
-        this.iTransformedOrigin = this.iOriginInWorld;
+        this.iTransformedOrigin = DoubleMatrix.identity(4);
     }
 
     /**
