@@ -1,12 +1,14 @@
 package model.javaGL.matrix;
 
+import java.util.Arrays;
+
 /**
  * Represents a vertex as a 4x1 column vector of doubles.
  * 
  * @author Roman Bureacov
  * @version 2025-11
  */
-public class Vertex implements Matrix<Double> {
+public class Vertex implements Matrix<Double>, Cloneable {
 
     // transpose of a column vector
     private final double[] iVertex = new double[4];
@@ -73,11 +75,13 @@ public class Vertex implements Matrix<Double> {
     }
 
     @Override
-    public Vertex copy() {
-        return new Vertex(
-                this.iVertex[0],
-                this.iVertex[1],
-                this.iVertex[2]
-        );
+    public Vertex clone() {
+        try {
+            final Vertex lClone = (Vertex) super.clone();
+            System.arraycopy(this.iVertex, 0, lClone.iVertex, 0, this.iVertex.length);
+            return lClone;
+        } catch (CloneNotSupportedException e) {
+            throw new AssertionError("Error occurred while cloning vertex");
+        }
     }
 }

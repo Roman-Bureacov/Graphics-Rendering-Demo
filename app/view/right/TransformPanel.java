@@ -42,7 +42,7 @@ public class TransformPanel extends JPanel implements PropertyChangeListener {
         final JPanel lTransformHeader = new JPanel();
         lTransformHeader.setLayout(new BoxLayout(lTransformHeader, BoxLayout.X_AXIS));
         lTransformHeader.add(new JLabel("Scene Object:"));
-        for (final String name : this.iWorld.meshes()) {
+        for (final String name : this.iWorld.meshesNames()) {
             this.iSceneObjects.addItem(name);
         }
         this.iSceneObjects.setSelectedIndex(0);

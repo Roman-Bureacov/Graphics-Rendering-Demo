@@ -6,7 +6,7 @@ package model.javaGL.matrix;
  * @author Roman Bureacov
  * @version 2025-11
  */
-public interface Matrix<T> {
+public interface Matrix<T> extends Cloneable {
 
     /**
      * Sets the value at the specified row and column.
@@ -38,10 +38,4 @@ public interface Matrix<T> {
      * @return The number of columns in this matrix.
      */
     int columnCount();
-
-    /**
-     * Constructs a copy of this matrix.
-     * @return the duplicate of this matrix
-     */
-    Matrix<T> copy();
 }

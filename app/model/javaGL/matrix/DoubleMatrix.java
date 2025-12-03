@@ -51,10 +51,18 @@ public class DoubleMatrix implements Matrix<Double> {
     }
 
     @Override
-    public DoubleMatrix copy() {
+    public DoubleMatrix clone() {
         final int lRows = this.rowCount();
         final int lCols = this.columnCount();
-        final DoubleMatrix lDupe = new DoubleMatrix(lRows, lCols);
+        final DoubleMatrix lDupe;
+
+        try {
+            lDupe = (DoubleMatrix) super.clone();
+        } catch (final CloneNotSupportedException lExc) {
+            // lazy exception
+            throw new RuntimeException(lExc);
+        }
+
         for (int i = 0; i < lRows; i++) {
             lDupe.iMatrix[i] = Arrays.copyOf(this.iMatrix[i], lCols);
         }

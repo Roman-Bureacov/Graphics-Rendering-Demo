@@ -23,10 +23,18 @@ public class NumberMatrix implements Matrix<Number> {
     }
 
     @Override
-    public Matrix<Number> copy() {
+    public Matrix<Number> clone() {
         final int lRows = this.rowCount();
         final int lCols = this.columnCount();
-        final NumberMatrix lDupe = new NumberMatrix(lRows, lCols);
+        final NumberMatrix lDupe;
+
+        try {
+            lDupe = (NumberMatrix) super.clone();
+        } catch (final CloneNotSupportedException lExc) {
+            // lazy exception
+            throw new RuntimeException(lExc);
+        }
+
         for (int i = 0; i < lRows; i++) {
             lDupe.iMatrix[i] = Arrays.copyOf(this.iMatrix[i], lCols);
         }

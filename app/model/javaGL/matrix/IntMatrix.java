@@ -43,10 +43,19 @@ public class IntMatrix implements Matrix<Integer> {
     }
 
     @Override
-    public Matrix<Integer> copy() {
+    public Matrix<Integer> clone() {
         final int lRows = this.rowCount();
         final int lCols = this.columnCount();
-        final IntMatrix lDupe = new IntMatrix(lRows, lCols);
+        final IntMatrix lDupe;
+
+        try {
+
+            lDupe = (IntMatrix) super.clone();
+        } catch (final CloneNotSupportedException lExc) {
+            // lazy exception
+            throw new RuntimeException(lExc);
+        }
+
         for (int i = 0; i < lRows; i++) {
             lDupe.iMatrix[i] = Arrays.copyOf(this.iMatrix[i], lCols);
         }

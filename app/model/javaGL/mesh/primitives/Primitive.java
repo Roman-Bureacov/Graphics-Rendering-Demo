@@ -9,7 +9,7 @@ import model.javaGL.matrix.Vertex;
  * @author Roman Bureacov
  * @version 2025-11
  */
-public abstract class Primitive {
+public abstract class Primitive implements Cloneable {
 
     private int iColor = 0x000000;
 
@@ -50,9 +50,8 @@ public abstract class Primitive {
         this.iColor = pColor;
     }
 
-    /**
-     * Constructs a copy of this primitive.
-     * @return the duplicate of this primitive
-     */
-    public abstract Primitive copy();
+    @Override
+    protected Primitive clone() throws CloneNotSupportedException {
+        return (Primitive) super.clone();
+    }
 }

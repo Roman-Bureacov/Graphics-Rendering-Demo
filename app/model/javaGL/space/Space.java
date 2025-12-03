@@ -1,5 +1,6 @@
 package model.javaGL.space;
 
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
@@ -15,6 +16,7 @@ import model.javaGL.mesh.Mesh;
  */
 public class Space {
     final Map<String, Mesh> iMeshes = new HashMap<>();
+
 
     /**
      * Performs a transformation on an existing mesh in this space.
@@ -49,7 +51,17 @@ public class Space {
      * Retrieves the mesh names contained in this space
      * @return the mesh names in this space
      */
-    public Set<String> meshes() {
+    public Set<String> meshesNames() {
         return this.iMeshes.keySet();
     }
+
+    /**
+     * Retrieves the meshes contained in this space
+     * @return the meshes in this space
+     */
+    public Collection<Mesh> meshes() {
+        return this.iMeshes.values();
+    }
+
+
 }

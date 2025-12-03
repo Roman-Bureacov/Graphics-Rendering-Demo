@@ -40,11 +40,14 @@ public final class Triangle extends Primitive {
     }
 
     @Override
-    public Primitive copy() {
-        final Triangle lDupe = new Triangle();
-        for (int i = 0; i < 2; i++) {
-            lDupe.iVertices[i] = this.iVertices[i].copy();
+    public Primitive clone() {
+        final Triangle lDupe;
+        try {
+            lDupe = (Triangle) super.clone();
+        } catch (final CloneNotSupportedException lExc) {
+            throw new RuntimeException(lExc);
         }
+        for (int i = 0; i < this.iVertices.length; i++) lDupe.iVertices[i] = this.iVertices[i].clone();
         return lDupe;
     }
 }

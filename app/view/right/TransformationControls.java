@@ -10,7 +10,6 @@ import javax.swing.AbstractButton;
 import javax.swing.BoxLayout;
 import javax.swing.ButtonGroup;
 import javax.swing.JButton;
-import javax.swing.JComponent;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JRadioButton;
@@ -123,12 +122,11 @@ public class TransformationControls extends JPanel {
         lMatrixPanel.add(new JLabel("y"));
         lMatrixPanel.add(new JLabel("z"));
         lMatrixPanel.add(new JLabel("w"));
-        for (final Component c : lMatrixPanel.getComponents()) {
-            if (c instanceof JLabel) {
-                final JLabel lComp = (JLabel) c;
+        for (final Component comp : lMatrixPanel.getComponents()) {
+            if (comp instanceof final JLabel pComp) {
                 final int lFontSize = 18;
-                lComp.setHorizontalAlignment(SwingConstants.CENTER);
-                lComp.setFont(new Font("Cambria", Font.PLAIN, lFontSize ));
+                pComp.setHorizontalAlignment(SwingConstants.CENTER);
+                pComp.setFont(new Font("Cambria", Font.PLAIN, lFontSize ));
             }
         }
 
