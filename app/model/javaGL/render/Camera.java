@@ -151,6 +151,7 @@ public class Camera {
     public void setApertureWidth(final double pWidth) {
         this.iApertureWidth = pWidth;
         this.iFilmGateAspectRatio = this.iApertureWidth / this.iApertureHeight;
+        this.iApertureChanged = true;
     }
 
     /**
@@ -168,6 +169,7 @@ public class Camera {
     public void setApertureHeight(final double pHeight) {
         this.iApertureHeight = pHeight;
         this.iFilmGateAspectRatio = this.iApertureWidth / this.iApertureHeight;
+        this.iApertureChanged = true;
     }
 
     /**
@@ -232,6 +234,7 @@ public class Camera {
             this.iCanvas[1] = -this.iCanvas[0];
             this.iCanvas[2] = lCanvasWidth / 2 * this.iFilmGateAspectRatio;
             this.iCanvas[3] = -this.iCanvas[2];
+            this.iApertureChanged = false;
         }
 
         return Arrays.copyOf(this.iCanvas, this.iCanvas.length);
