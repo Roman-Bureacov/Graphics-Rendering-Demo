@@ -27,8 +27,6 @@ public class Renderer {
     private final Camera iCamera;
     final double[] iCanvasCoordinates;
 
-    private Set<Primitive> iToRender;
-
     /**
      * Constructs a renderer with the world space provided
      * @param pSpace the world space to render
@@ -47,9 +45,8 @@ public class Renderer {
     /**
      * Initiates and conducts rendering.
      */
+    @SuppressWarnings({"OverlyLongMethod", "OverlyNestedMethod"})
     public void render() {
-        this.iToRender = new HashSet<>();
-
         // start by assuming the primitive is contained in the view volume
         for (final Mesh mesh : this.iWorld.meshes()) {
             final Matrix<Double> lWorldToCamera = this.iCamera.inverseMatrix();
