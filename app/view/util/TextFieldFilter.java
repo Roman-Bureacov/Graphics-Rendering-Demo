@@ -14,9 +14,9 @@ import org.jetbrains.annotations.Nullable;
  */
 public class TextFieldFilter extends DocumentFilter {
     /** regex filter for integers */
-    private static final String INT_REGEX = "\\d+";
+    private static final String INT_REGEX = "-?(\\d+)";
     /** regex filter for doubles */
-    private static final String DOUBLE_REGEX = "(\\d+)?\\.\\d+|\\d+\\.(\\d+)?|\\d+";
+    private static final String DOUBLE_REGEX = "-?((\\d+)?\\.\\d+|\\d+\\.(\\d+)?|\\d+)";
     
     private final String iFilter;
 

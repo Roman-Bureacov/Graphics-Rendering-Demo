@@ -93,7 +93,7 @@ public class Renderer {
                 lBoxMinX = Math.max(0, lBoxMinX);
                 lBoxMinY = Math.max(0, lBoxMinY);
                 lBoxMaxX = Math.min(this.iCamera.getImageWidth() - 1, lBoxMaxX);
-                lBoxMaxY = Math.min(this.iCamera.getImageWidth() - 1, lBoxMaxY);
+                lBoxMaxY = Math.min(this.iCamera.getImageHeight() - 1, lBoxMaxY);
 
                 // rasterize
                 for (int x = (int) lBoxMinX; x < lBoxMaxX; x++) {
@@ -126,14 +126,15 @@ public class Renderer {
                             );
 
                             // assume all values are positive (all triangles to be rendered have "clockwise" vertices)
-                            final double lDepthZ = 1 / (
-                                    lRasterVerts[0].z() * Math.abs(lEF0 / lArea)
-                                    + lRasterVerts[1].z() * Math.abs(lEF1 / lArea)
-                                    + lRasterVerts[2].z() * Math.abs(lEF2 / lArea)
+                            final double lDepthZ = (
+                                    lRasterVerts[0].z() * Math.abs(lEF1 / lArea)
+                                    + lRasterVerts[1].z() * Math.abs(lEF2 / lArea)
+                                    + lRasterVerts[2].z() * Math.abs(lEF0 / lArea)
                             );
 
                             // depth test
                             if (lDepthZ < this.iDepthBuffer.getDepth(y, x)) { // row (y), column (x)
+                                this.iDepthBuffer.setDepth(y, x, lDepthZ);
                                 lResult.setPixel(y, x, (int) (p.color() / lDepthZ));
                             }
                         }
@@ -202,11 +203,8 @@ public class Renderer {
      */
     private void toScreen(final Vertex pVert) {
         // perspective divide
-        final double lX = pVert.get(0);
-        final double lY = pVert.get(1);
-        final double lZ = pVert.get(2);
-        pVert.set(0, this.iCamera.getNearPlane() * lX / -lZ);
-        pVert.set(1, this.iCamera.getNearPlane() * lY / -lZ);
-        pVert.set(1, -lZ);
+        pVert.set(0, this.iCamera.getNearPlane() * pVert.x() / -pVert.z());
+        pVert.set(1, this.iCamera.getNearPlane() * pVert.y() / -pVert.z());
+        pVert.set(2, -pVert.z());
     }
 }
