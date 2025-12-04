@@ -1,14 +1,9 @@
 package model.javaGL.render;
 
-import java.util.HashSet;
-import java.util.Set;
-
 import model.javaGL.matrix.Matrix;
 import model.javaGL.matrix.MatrixMath;
 import model.javaGL.matrix.Vertex;
 import model.javaGL.mesh.Mesh;
-import model.javaGL.mesh.primitives.Line;
-import model.javaGL.mesh.primitives.Point;
 import model.javaGL.mesh.primitives.Primitive;
 import model.javaGL.mesh.primitives.Triangle;
 import model.javaGL.space.Space;
@@ -22,7 +17,6 @@ import model.javaGL.space.Space;
  */
 public class Renderer {
     private final Space iWorld;
-    private final Raster iScreen;
     private final DepthBuffer iDepthBuffer;
     private final Camera iCamera;
     final double[] iCanvasCoordinates;
@@ -30,29 +24,31 @@ public class Renderer {
     /**
      * Constructs a renderer with the world space provided
      * @param pSpace the world space to render
-     * @param pWidth the width of the raster
-     * @param pHeight the height of the raster
+     * @param pCamera the camera to view the space from
      */
-    public Renderer(final Space pSpace, final int pWidth, final int pHeight) {
+    public Renderer(final Space pSpace, final Camera pCamera) {
         super();
         this.iWorld = pSpace;
-        this.iDepthBuffer = new DepthBuffer(pWidth, pHeight);
-        this.iScreen = new Raster(pWidth, pHeight);
-        this.iCamera = new Camera(0.1, 22, 35, pWidth, pHeight);
+        this.iCamera = pCamera;
+        this.iDepthBuffer = new DepthBuffer(pCamera.getImageWidth(), pCamera.getImageHeight());
         this.iCanvasCoordinates = this.iCamera.getCanvasCoordinates();
     }
 
     /**
      * Initiates and conducts rendering.
+     * @return the resulting image raster
      */
     @SuppressWarnings({"OverlyLongMethod", "OverlyNestedMethod"})
-    public void render() {
+    public Raster render() {
+        final Raster lResult = new Raster(this.iCamera.getImageWidth(), this.iCamera.getImageHeight());
+
         // start by assuming the primitive is contained in the view volume
         for (final Mesh mesh : this.iWorld.meshes()) {
             final Matrix<Double> lWorldToCamera = this.iCamera.inverseMatrix();
             final Matrix<Double> lObjToCamera = MatrixMath.matrixMultiply(lWorldToCamera, mesh.getTransform());
             
             for (final Primitive p : mesh.primitives()) {
+                if (!(p instanceof Triangle)) continue; // rasterizer right now doesn't support other primitives
 
                 final Vertex[] lRasterVerts = new Vertex[3];
                 for (int i = 0; i < lRasterVerts.length; i++) {
@@ -138,13 +134,15 @@ public class Renderer {
 
                             // depth test
                             if (lDepthZ < this.iDepthBuffer.getDepth(y, x)) { // row (y), column (x)
-                                this.iScreen.setPixel(y, x, (int) (p.color() / lDepthZ));
+                                lResult.setPixel(y, x, (int) (p.color() / lDepthZ));
                             }
                         }
                     }
                 }
             }
         }
+
+        return lResult;
     }
 
     /**
@@ -211,37 +209,4 @@ public class Renderer {
         pVert.set(1, this.iCamera.getNearPlane() * lY / -lZ);
         pVert.set(1, -lZ);
     }
-
-    /**
-     * Goes through every primitive provided and colors a pixel on the raster
-     * while performing depth test
-     * @param pPrimitives the set of primitives the render
-     */
-    private void renderScene(final Set<Primitive> pPrimitives) {
-
-    }
-
-    /**
-     * Tests if the primitive is contained in the view frustrum as determined by the camera.
-     * Note that partially contained primitives are also considered to be a contained in the
-     * scene.
-     * @param pPrimitive the primitive to test
-     */
-    private void isContained(final Primitive pPrimitive) {
-        final int lCount = pPrimitive.points().length;
-        final Vertex[] lPoints = new Vertex[lCount];
-        for (int i = 0; i < lCount; i++) {
-            final Vertex lVert = pPrimitive.points()[i];
-            lPoints[i] = (MatrixMath.vertexMultiply(this.iCamera.inverseMatrix(), lVert));
-        }
-    }
-
-    /**
-     * Transforms the camera coordinates for this renderer
-     * @param pTransform the transformation matrix
-     */
-    public void transformCamera(final Matrix<Double> pTransform) {
-        this.iCamera.transform(pTransform);
-    }
-
 }
