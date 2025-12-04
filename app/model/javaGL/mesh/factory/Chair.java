@@ -9,6 +9,7 @@ import model.javaGL.mesh.primitives.Triangle;
  * @author Roman Bureacov
  * @version 2025-11
  */
+@SuppressWarnings("UnqualifiedFieldAccess")
 class Chair extends Mesh {
     
     Triangle t;
@@ -22,7 +23,6 @@ class Chair extends Mesh {
         this.setName("Chair");
     }
     
-    @SuppressWarnings("MagicNumber")
     private void makePrimitives() {
         this.frontLeftLeg();
         this.frontRightLeg();
@@ -33,7 +33,7 @@ class Chair extends Mesh {
     }
     
     @SuppressWarnings("MagicNumber")
-    private void frontLeftLeg() {
+    private void frontRightLeg() {
         t = MeshFactory.makeTriangle(
                 1d, 1d, 0d,
                 1d, 1.25d, 0d,
@@ -104,7 +104,7 @@ class Chair extends Mesh {
     }
 
     @SuppressWarnings("MagicNumber")
-    private void frontRightLeg() {
+    private void frontLeftLeg() {
         t = MeshFactory.makeTriangle(
                 -1d, 1d, 0d,
                 -1d, 1.25d, 0d,
