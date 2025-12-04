@@ -1,5 +1,6 @@
 package view.right;
 
+import java.awt.Dimension;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 
@@ -10,6 +11,7 @@ import javax.swing.JPanel;
 
 import model.javaGL.matrix.Matrix;
 import model.javaGL.space.Space;
+import view.Base;
 
 /**
  * A panel representing the transformation controls for this application
@@ -29,6 +31,9 @@ public class TransformPanel extends JPanel implements PropertyChangeListener {
         super();
         this.setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
         this.iSceneObjects = new JComboBox<>();
+        this.iSceneObjects.setMaximumSize(new Dimension(
+                Base.BASE_WIDTH/2, this.iSceneObjects.getPreferredSize().height
+                ));
         this.iWorld = pSpace;
 
         this.setup();
@@ -52,13 +57,8 @@ public class TransformPanel extends JPanel implements PropertyChangeListener {
         final TransformationControls lTransformBody = new TransformationControls();
         lTransformBody.addPropertyChangeListener(this);
 
-        // transform button
-        final JPanel lTransformFooter = new JPanel();
-        lTransformFooter.add(new JLabel("Footer"));
-
         this.add(lTransformHeader);
         this.add(lTransformBody);
-        this.add(lTransformFooter);
     }
 
     @SuppressWarnings("unchecked")

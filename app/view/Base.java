@@ -32,12 +32,12 @@ public class Base extends JFrame implements PropertyChangeListener {
     /** the width of the base panel */
     public final static int BASE_WIDTH = 750;
     /** the height of the base panel */
-    public final static int BASE_HEIGHT = 500;
+    public final static int BASE_HEIGHT = 600;
 
     public final Space iWorld = new Space();
 
     private final JPanel iMainPanel = new JPanel();
-    private final RenderPanel iRender = new RenderPanel(null);
+    private final RenderPanel iRender = new RenderPanel();
     private final TransformPanel iTransform;
 
     /**
@@ -47,6 +47,8 @@ public class Base extends JFrame implements PropertyChangeListener {
         super();
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         this.setSize(BASE_WIDTH, BASE_HEIGHT);
+        this.setResizable(false);
+        this.setTitle("Rasterization demo");
 
         // specifically to make the world meshes visible
         this.setupSpace(); // set up the world

@@ -17,14 +17,11 @@ import javax.swing.JTabbedPane;
 import javax.swing.JTextField;
 import javax.swing.SwingConstants;
 import javax.swing.text.AbstractDocument;
-import javax.swing.text.AttributeSet;
-import javax.swing.text.BadLocationException;
-import javax.swing.text.Document;
-import javax.swing.text.DocumentFilter;
 
 import model.javaGL.matrix.DoubleMatrix;
 import model.javaGL.matrix.Matrix;
 import view.Base;
+import view.util.TextFieldFilter;
 
 /**
  * A panel depicting the transformation controls for the scene.
@@ -79,7 +76,8 @@ public class TransformationControls extends JPanel {
         // configure the text fields
         for (int i = 0; i < this.iMatrixInput.length; i++) {
             final JTextField lField = new JTextField();
-            ((AbstractDocument) lField.getDocument()).setDocumentFilter(new DoubleFilter());
+            ((AbstractDocument) lField.getDocument())
+                    .setDocumentFilter(TextFieldFilter.getFilter("double"));
             this.iMatrixInput[i] = lField;
         }
 
@@ -87,7 +85,8 @@ public class TransformationControls extends JPanel {
         this.iAxisGroup.add(this.iYAxis);
         this.iAxisGroup.add(this.iZAxis);
         this.iXAxis.setSelected(true);
-        ((AbstractDocument) this.iRotationInput.getDocument()).setDocumentFilter(new DoubleFilter());
+        ((AbstractDocument) this.iRotationInput.getDocument())
+                .setDocumentFilter(TextFieldFilter.getFilter("double"));
 
         // setup components
         final JTabbedPane lTabs = new JTabbedPane();
@@ -217,50 +216,6 @@ public class TransformationControls extends JPanel {
         }
 
         return lInput;
-    }
-
-    /**
-     * Simple document filter that allows for filtering in only double inputs.
-     * <br>
-     * Inspired by: <a href="https://www.tutorialspoint.com/how-can-we-make-jtextfield-accept-only-numbers-in-java">this</a>
-     */
-    private static class DoubleFilter extends DocumentFilter {
-        private static final String DOUBLE_REGEX = "(\\d+)?\\.\\d+|\\d+\\.(\\d+)?|\\d+";
-
-        @Override
-        public void insertString(
-                final FilterBypass pFB,
-                final int pOffset,
-                final String pStr,
-                final AttributeSet pAttr) throws BadLocationException {
-
-            // string concatenation, permissible in relatively low-activity environment
-            final Document lDoc = pFB.getDocument();
-            final StringBuilder lCandidate = new StringBuilder(lDoc.getText(0, lDoc.getLength()));
-            lCandidate.insert(pOffset, pStr);
-
-            if (lCandidate.toString().matches(DOUBLE_REGEX)) {
-                super.insertString(pFB, pOffset, lCandidate.toString(), pAttr);
-            }
-        }
-
-        @Override
-        public void replace(
-                final FilterBypass pFB,
-                final int pOffset,
-                final int pLength,
-                final String pStr,
-                final AttributeSet pAttr) throws BadLocationException {
-
-            // string concatenation, permissible in relatively low-activity environment
-            final Document lDoc = pFB.getDocument();
-            final StringBuilder lCandidate = new StringBuilder(lDoc.getText(0, lDoc.getLength()));
-            lCandidate.replace(pOffset, pOffset + pLength, pStr == null ? "" : pStr);
-
-            if (lCandidate.toString().matches(DOUBLE_REGEX)) {
-                super.replace(pFB, pOffset, pLength, pStr, pAttr);
-            }
-        }
     }
 
 }
