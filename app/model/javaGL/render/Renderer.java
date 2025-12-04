@@ -174,14 +174,14 @@ public class Renderer {
     private void toNDC(final Vertex pVert) {
         // x = 2 * screen.x / ( r - l) - ( r + l ) / ( r - l )
         pVert.set(0,
-                2 * pVert.get(0) / (this.iCanvasCoordinates[0] - this.iCanvasCoordinates[1]) - (
+                2 * pVert.x() / (this.iCanvasCoordinates[0] - this.iCanvasCoordinates[1]) - (
                         (this.iCanvasCoordinates[0] + this.iCanvasCoordinates[1])
                                 / (this.iCanvasCoordinates[0] - this.iCanvasCoordinates[1])
                 )
         );
-        // y = 2 * screen.x / ( t - b) - ( t + b ) / ( t - b )
+        // y = 2 * screen.y / ( t - b) - ( t + b ) / ( t - b )
         pVert.set(1,
-                2 * pVert.get(1) / (this.iCanvasCoordinates[2] - this.iCanvasCoordinates[3]) - (
+                2 * pVert.y() / (this.iCanvasCoordinates[2] - this.iCanvasCoordinates[3]) - (
                         (this.iCanvasCoordinates[2] + this.iCanvasCoordinates[3])
                                 / (this.iCanvasCoordinates[2] - this.iCanvasCoordinates[3])
                 )
