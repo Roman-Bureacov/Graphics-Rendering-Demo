@@ -12,18 +12,16 @@ import model.javaGL.matrix.DoubleMatrix;
  * @version 2025-11
  */
 public class Raster {
-    Matrix<Integer> iPixelColors;
-    Matrix<Double> iDepthBuffer;
+    private final Matrix<Integer> iPixelColors;
 
     /**
-     * Constructs a raster, with a pixel and depth buffer matrices.
+     * Constructs a raster, with a pixel matrix of 0-color pixels.
      * @param pWidth the width of the raster
      * @param pHeight the height of the raster
      */
     public Raster(final int pWidth, final int pHeight) {
         super();
         this.iPixelColors = new IntMatrix(pWidth, pHeight);
-        this.iDepthBuffer = new DoubleMatrix(pWidth, pHeight);
     }
 
     /**
@@ -47,28 +45,8 @@ public class Raster {
     }
 
     /**
-     * Sets the depth value at the pixel
-     * @param pRow the row
-     * @param pCol the column
-     * @param pDepth the depth value
-     */
-    public void setDepth(final int pRow, final int pCol, final double pDepth) {
-        this.iDepthBuffer.set(pRow, pCol, pDepth);
-    }
-
-    /**
-     * Gets the depth value at the pixel
-     * @param pRow the row
-     * @param pCol the column
-     * @return the depth value in the buffer at the specified pixel
-     */
-    public double getDepth(final int pRow, final int pCol) {
-        return this.iDepthBuffer.get(pRow, pCol);
-    }
-
-    /**
      * Gets the width of this raster.
-     * @return the width
+     * @return the width in pixels
      */
     public int width() {
         return this.iPixelColors.columnCount();
@@ -76,7 +54,7 @@ public class Raster {
 
     /**
      * Gets the height of this raster.
-     * @return
+     * @return the height in pixels
      */
     public int height() {
         return this.iPixelColors.rowCount();

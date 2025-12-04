@@ -74,6 +74,30 @@ public class Vertex implements Matrix<Double>, Cloneable {
         return 1;
     }
 
+    /**
+     * Gets the x-coordinate of this vertex
+     * @return the x value
+     */
+    public double x() {
+        return this.iVertex[0];
+    }
+
+    /**
+     * Gets the y-coordinate of this vertex
+     * @return the y value
+     */
+    public double y() {
+        return this.iVertex[1];
+    }
+
+    /**
+     * Gets the z-coordinate of this vertex
+     * @return the z value
+     */
+    public double z() {
+        return this.iVertex[2];
+    }
+
     @Override
     public Vertex clone() {
         try {

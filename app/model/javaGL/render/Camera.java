@@ -37,9 +37,9 @@ public class Camera {
     private double iResolutionGateAspectRatio;
 
     /**
-     * Creates a basic camera at the origin with a near plane of 1 and far plane of 2
+     * Creates a basic camera at the origin with a near plane of 1 and far plane of 10
      * @param pFocalLength the focal length in mm
-     * @param pApertureWidth the aperture width in mmm
+     * @param pApertureWidth the aperture width in mm
      * @param pApertureHeight the aperture height in mm
      * @param pImageWidth the image width in pixels
      * @param pImageHeight the image height in pixels
@@ -59,17 +59,6 @@ public class Camera {
 
         this.iResolutionGateAspectRatio = (double) this.iImageWidth / this.iImageHeight;
         this.iFilmGateAspectRatio = this.iApertureWidth / this.iApertureHeight;
-    }
-
-    /**
-     * Creates a basic camera at the origin with specified near and far planes
-     * @param pNear the distance of the near plane from the eye of the camera
-     * @param pFar the distance of the far plane from the eye of the camera
-     */
-    public Camera(final double pNear, final double pFar) {
-        super();
-        this.iNearPlane = pNear;
-        this.iFarPlane = pFar;
     }
 
     /**

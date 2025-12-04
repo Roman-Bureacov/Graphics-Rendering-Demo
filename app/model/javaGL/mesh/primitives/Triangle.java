@@ -6,6 +6,8 @@ import model.javaGL.matrix.Vertex;
 
 /**
  * The representation of the triangle primitive.
+ * <br>
+ * The vertices of a triangle go in clockwise order for rasterization.
  *
  * @author Roman Bureacov
  * @version 2025-22

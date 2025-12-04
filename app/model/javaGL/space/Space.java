@@ -30,16 +30,6 @@ public class Space {
     }
 
     /**
-     * Adds the matrix to an existing mesh transform. Does nothing if the mesh does not exist.
-     * @param pMeshName the mesh to transform
-     * @param pTransform the matrix to add
-     */
-    public void addTransformExisting(final String pMeshName, final Matrix<Double> pTransform) {
-        final Mesh lMesh = this.iMeshes.get(pMeshName);
-        if (lMesh != null) lMesh.addTransfrom(pTransform);
-    }
-
-    /**
      * Appends a mesh to the space.
      * @param pMesh the mesh to append
      */
