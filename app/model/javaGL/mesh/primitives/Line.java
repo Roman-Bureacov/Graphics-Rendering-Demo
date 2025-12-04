@@ -35,13 +35,9 @@ public class Line extends Primitive {
     }
 
     @Override
-    public Primitive clone() {
+    public Line clone() {
         final Line lDupe;
-        try {
-            lDupe = (Line) super.clone();
-        } catch (final CloneNotSupportedException lExc) {
-            throw new RuntimeException(lExc);
-        }
+        lDupe = (Line) super.clone();
         for (int i = 0; i < this.iVertices.length; i++) lDupe.iVertices[i] = this.iVertices[i].clone();
         return lDupe;
     }

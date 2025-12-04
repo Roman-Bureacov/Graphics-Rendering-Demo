@@ -82,11 +82,13 @@ public class Mesh {
         this.iTransformedOrigin = MatrixMath.matrixMultiply(pTransformation, this.iTransformedOrigin);
     }
 
+
     /**
-     * Adds the matrix to this mesh's transform
-     * @param pTransform the matrix to add
+     * Gets this mesh's transformation matrix
+     * @return the transformation matrix from object coordinates to world coordinates
      */
-    public void addTransfrom(final Matrix<Double> pTransform) {
-        this.iTransformedOrigin = MatrixMath.addMatrix(this.iTransformedOrigin, pTransform);
+    public Matrix<Double> getTransform() {
+        return ((DoubleMatrix) this.iTransformedOrigin).clone();
     }
+
 }

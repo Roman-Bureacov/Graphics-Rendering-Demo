@@ -52,8 +52,9 @@ public class Point extends Primitive {
     }
 
     @Override
-    public Primitive clone() throws CloneNotSupportedException {
-        final Point lDupe = (Point) super.clone();
+    public Point clone() {
+        final Point lDupe;
+        lDupe = (Point) super.clone();
         lDupe.iVertices[0] = this.iVertices[0].clone();
         lDupe.setColor(this.color());
         return lDupe;

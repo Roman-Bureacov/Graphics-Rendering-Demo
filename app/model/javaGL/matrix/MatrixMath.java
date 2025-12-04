@@ -149,7 +149,7 @@ public final class MatrixMath {
         for (int row = 0; row < lRows; row++) {
             for (int col = 0; col < lCols; col++) {
                 // transpose in advance
-                lInverse.set(col, row, cofactor(pMatrix, col, row));
+                lInverse.set(row, col, cofactor(pMatrix, col, row));
             }
         }
 
@@ -158,7 +158,8 @@ public final class MatrixMath {
         // if made up of cofactors
         double lDeterminant = 0;
         for (int col = 0; col < lCols; col++) {
-            lDeterminant += pMatrix.get(0, col) * lInverse.get(0, col);
+            // the inverse has already been transposed
+            lDeterminant += pMatrix.get(0, col) * lInverse.get(col, 0);
         }
 
         if (lDeterminant == 0) return null;
@@ -187,19 +188,15 @@ public final class MatrixMath {
         final int lRows = pMatrix.rowCount();
         final int lCols = pMatrix.columnCount();
         final Matrix<Double> lMinor = new DoubleMatrix(lRows - 1, lCols - 1);
-        for (int row = 0; row < lRows; row++) {
-            if (row == pRow) {
-                // skip row
-                row++;
-            } else {
-                for (int col = 0; col < lCols; col++) {
-                    if (col == pCol) {
-                        // skip column
-                        col++;
-                    } else {
-                        lMinor.set(row, col, pMatrix.get(row, col));
+        for (int row = 0, minorRow = 0; row < lRows; row++) {
+            if (row != pRow) {
+                for (int col = 0, minorCol = 0; col < lCols; col++) {
+                    if (col != pCol) {
+                        lMinor.set(minorRow, minorCol, pMatrix.get(row, col));
+                        minorCol++;
                     }
                 }
+                minorRow++;
             }
         }
 
@@ -228,7 +225,7 @@ public final class MatrixMath {
         } else {
             // find the determinant using the first row
             for (int col = 0; col < lCols; col++) {
-                lDet = pMatrix.get(0, col) * cofactor(pMatrix, 0, col);
+                lDet += pMatrix.get(0, col) * cofactor(pMatrix, 0, col);
             }
         }
 

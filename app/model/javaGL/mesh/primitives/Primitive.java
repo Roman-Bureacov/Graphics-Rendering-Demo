@@ -51,7 +51,12 @@ public abstract class Primitive implements Cloneable {
     }
 
     @Override
-    protected Primitive clone() throws CloneNotSupportedException {
-        return (Primitive) super.clone();
+    public Primitive clone() {
+        try {
+            return (Primitive) super.clone();
+        } catch (final CloneNotSupportedException lExc) {
+            // lazy exception
+            throw new RuntimeException(lExc);
+        }
     }
 }
