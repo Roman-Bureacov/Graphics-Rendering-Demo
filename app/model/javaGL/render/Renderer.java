@@ -17,7 +17,6 @@ import model.javaGL.space.Space;
  */
 public class Renderer {
     private final Space iWorld;
-    private final DepthBuffer iDepthBuffer;
     private final Camera iCamera;
     final double[] iCanvasCoordinates;
 
@@ -30,7 +29,6 @@ public class Renderer {
         super();
         this.iWorld = pSpace;
         this.iCamera = pCamera;
-        this.iDepthBuffer = new DepthBuffer(pCamera.getImageWidth(), pCamera.getImageHeight());
         this.iCanvasCoordinates = this.iCamera.getCanvasCoordinates();
     }
 
@@ -41,6 +39,7 @@ public class Renderer {
     @SuppressWarnings({"OverlyLongMethod", "OverlyNestedMethod"})
     public Raster render() {
         final Raster lResult = new Raster(this.iCamera.getImageWidth(), this.iCamera.getImageHeight());
+        final DepthBuffer lDepthBuffer = new DepthBuffer(this.iCamera.getImageWidth(), this.iCamera.getImageHeight());
 
         // start by assuming the primitive is contained in the view volume
         for (final Mesh mesh : this.iWorld.meshes()) {
@@ -133,9 +132,9 @@ public class Renderer {
                             );
 
                             // depth test
-                            if (lDepthZ < this.iDepthBuffer.getDepth(y, x)) { // row (y), column (x)
-                                this.iDepthBuffer.setDepth(y, x, lDepthZ);
-                                lResult.setPixel(y, x, (int) (p.color() / lDepthZ));
+                            if (lDepthZ < lDepthBuffer.getDepth(y, x)) { // row (y), column (x)
+                                lDepthBuffer.setDepth(y, x, lDepthZ);
+                                lResult.setPixel(y, x, (int) (p.color() - p.color() / lDepthZ));
                             }
                         }
                     }
