@@ -44,7 +44,7 @@ public class TransformationControls extends JPanel {
      * <br>
      * The product 4*4-1, the minus 1 being for array traversal.
      */
-    private static final int ROWCOLS = 4*4 - 1;
+    private static final int ROWCOLS = 4*4;
 
     private final JPanel iMatrixTransformation = new JPanel();
     private final JPanel iRotationTransformation = new JPanel();
@@ -134,7 +134,7 @@ public class TransformationControls extends JPanel {
             lMatrixPanel.add(textField);
         }
         // disable last row
-        this.iMatrixInput[ROWCOLS].setText("1");
+        this.iMatrixInput[ROWCOLS - 1].setText("1");
         for (int i = 0; i < 4; i++) {
             this.iMatrixInput[4*3 + i].setEnabled(false);
         }

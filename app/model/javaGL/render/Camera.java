@@ -32,7 +32,7 @@ public class Camera {
     private double iAngleOfViewHorizontal;
     private double iAngleOfViewVertical;
     /** depicts the canvas coordinates, ordered [l, r, t, b] */
-    private double[] iCanvas;
+    private final double[] iCanvas = new double[4];
     private double iFilmGateAspectRatio;
     private double iResolutionGateAspectRatio;
 

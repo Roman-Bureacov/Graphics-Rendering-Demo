@@ -6,14 +6,17 @@ import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.image.BufferedImage;
 
-import javax.swing.Box;
 import javax.swing.BoxLayout;
+import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.text.AbstractDocument;
 
+import model.javaGL.render.Camera;
 import model.javaGL.render.Raster;
+import model.javaGL.render.Renderer;
+import model.javaGL.space.Space;
 import view.Base;
 import view.util.TextFieldFilter;
 
@@ -23,24 +26,32 @@ import view.util.TextFieldFilter;
 public class RenderPanel extends JPanel {
     private final JLabel iRenderStatsLabel = new JLabel();
     private final JTextField iFocalLengthProp = new JTextField();
-    private final JTextField iApertureWidth = new JTextField();
-    private final JTextField iApertureHeight = new JTextField();
-    private final JTextField iImageWidth = new JTextField();
-    private final JTextField iImageHeight = new JTextField();
-    private final JPanel iRasterPanel = new RasterPanel();
+    private final JTextField iApertureWidthProp = new JTextField();
+    private final JTextField iApertureHeightProp = new JTextField();
+    private final JTextField iImageWidthProp = new JTextField();
+    private final JTextField iImageHeightProp = new JTextField();
+    private final RasterPanel iRasterPanel = new RasterPanel();
+    private final JButton iRenderButton = new JButton("Render");
 
+    private final Space iWorkingSpace;
+    private final Camera iWorkingCamera;
     private final String iRenderStats =
 """
+<html>
 <body>
-
+<p> Render Time: %d ms </p>
 </body>
+</html>
 """;
 
     /**
      * Constructs a new rendering panel.
      */
-    public RenderPanel() {
+    public RenderPanel(final Space pSpace, final Camera pCamera) {
         super();
+        this.iWorkingSpace = pSpace;
+        this.iWorkingCamera = pCamera;
+
         this.setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
 
         // the property config panels on top
@@ -50,9 +61,31 @@ public class RenderPanel extends JPanel {
         this.add(this.iRasterPanel);
 
         // the stats on the bottom
+        this.add(this.iRenderButton);
         this.add(this.iRenderStatsLabel);
         this.iRenderStatsLabel.setText(this.iRenderStats);
 
+        this.setupActions();
+
+    }
+
+    private void setupActions() {
+        this.iRenderButton.addActionListener(e -> {
+            final long lStartTime = System.currentTimeMillis();
+            
+            // set the parameters
+            this.iWorkingCamera.setFocalLength(Double.parseDouble(this.iFocalLengthProp.getText()));
+            this.iWorkingCamera.setApertureWidth(Double.parseDouble(this.iApertureWidthProp.getText()));
+            this.iWorkingCamera.setApertureHeight(Double.parseDouble(this.iApertureHeightProp.getText()));
+            this.iWorkingCamera.setImageWidth(Integer.parseInt(this.iImageWidthProp.getText()));
+            this.iWorkingCamera.setImageHeight(Integer.parseInt(this.iImageHeightProp.getText()));
+            
+            final Renderer lRender = new Renderer(this.iWorkingSpace, this.iWorkingCamera);
+            this.iRasterPanel.drawRaster(lRender.render());
+
+            final long lEndTime = System.currentTimeMillis();
+            this.iRenderStatsLabel.setText(this.iRenderStats.formatted(lEndTime - lStartTime));
+        });
     }
 
     private JPanel makeConfigPanel() {
@@ -67,10 +100,10 @@ public class RenderPanel extends JPanel {
 
         // defaults
         this.iFocalLengthProp.setText("10");
-        this.iApertureWidth.setText("22");
-        this.iApertureHeight.setText("22");
-        this.iImageWidth.setText("720");
-        this.iImageHeight.setText("480");
+        this.iApertureWidthProp.setText("22");
+        this.iApertureHeightProp.setText("22");
+        this.iImageWidthProp.setText("480");
+        this.iImageHeightProp.setText("480");
 
         return lConfigs;
     }
@@ -93,9 +126,9 @@ public class RenderPanel extends JPanel {
         // aperture width
         lCameraConfigs.add(new JLabel("Aperture width"));
         final JPanel lAperWidthConf = new JPanel();
-        ((AbstractDocument) this.iApertureWidth.getDocument())
+        ((AbstractDocument) this.iApertureWidthProp.getDocument())
                 .setDocumentFilter(TextFieldFilter.getFilter("double"));
-        lAperWidthConf.add(this.iApertureWidth);
+        lAperWidthConf.add(this.iApertureWidthProp);
         lAperWidthConf.add(new JLabel("mm"));
         lAperWidthConf.setMaximumSize(lAperWidthConf.getPreferredSize());
         lCameraConfigs.add(lAperWidthConf);
@@ -104,9 +137,9 @@ public class RenderPanel extends JPanel {
         // aperture height
         lCameraConfigs.add(new JLabel("Aperture height"));
         final JPanel lAperHeightConf = new JPanel();
-        ((AbstractDocument) this.iApertureHeight.getDocument())
+        ((AbstractDocument) this.iApertureHeightProp.getDocument())
                 .setDocumentFilter(TextFieldFilter.getFilter("double"));
-        lAperHeightConf.add(this.iApertureHeight);
+        lAperHeightConf.add(this.iApertureHeightProp);
         lAperHeightConf.add(new JLabel("mm"));
         lAperHeightConf.setMaximumSize(lAperHeightConf.getPreferredSize());
         lCameraConfigs.add(lAperHeightConf);
@@ -122,9 +155,9 @@ public class RenderPanel extends JPanel {
         // image width
         lImageConfigs.add(new JLabel("Image width"));
         final JPanel lImageWidthConf = new JPanel();
-        ((AbstractDocument) this.iImageWidth.getDocument())
+        ((AbstractDocument) this.iImageWidthProp.getDocument())
                 .setDocumentFilter(TextFieldFilter.getFilter("integer"));
-        lImageWidthConf.add(this.iImageWidth);
+        lImageWidthConf.add(this.iImageWidthProp);
         lImageWidthConf.add(new JLabel("px"));
         lImageWidthConf.setMaximumSize(lImageWidthConf.getPreferredSize());
         lImageConfigs.add(lImageWidthConf);
@@ -133,9 +166,9 @@ public class RenderPanel extends JPanel {
         // image height
         lImageConfigs.add(new JLabel("Image height"));
         final JPanel lImageHeightConf = new JPanel();
-        ((AbstractDocument) this.iImageHeight.getDocument())
+        ((AbstractDocument) this.iImageHeightProp.getDocument())
                 .setDocumentFilter(TextFieldFilter.getFilter("integer"));
-        lImageHeightConf.add(this.iImageHeight);
+        lImageHeightConf.add(this.iImageHeightProp);
         lImageHeightConf.add(new JLabel("px"));
         lImageHeightConf.setMaximumSize(lImageHeightConf.getPreferredSize());
         lImageConfigs.add(lImageHeightConf);

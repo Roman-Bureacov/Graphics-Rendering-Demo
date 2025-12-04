@@ -17,6 +17,7 @@ import model.javaGL.mesh.Mesh;
 import model.javaGL.mesh.factory.MeshFactory;
 import model.javaGL.mesh.primitives.Primitive;
 import model.javaGL.mesh.primitives.Triangle;
+import model.javaGL.render.Camera;
 import model.javaGL.space.Space;
 import view.left.RenderPanel;
 import view.right.TransformPanel;
@@ -34,10 +35,11 @@ public class Base extends JFrame implements PropertyChangeListener {
     /** the height of the base panel */
     public final static int BASE_HEIGHT = 600;
 
-    public final Space iWorld = new Space();
+    private final Space iWorld = new Space();
+    private final Camera iCamera = new Camera(0, 0, 0, 0, 0);
 
     private final JPanel iMainPanel = new JPanel();
-    private final RenderPanel iRender = new RenderPanel();
+    private final RenderPanel iRender;
     private final TransformPanel iTransform;
 
     /**
@@ -52,7 +54,8 @@ public class Base extends JFrame implements PropertyChangeListener {
 
         // specifically to make the world meshes visible
         this.setupSpace(); // set up the world
-        this.iTransform = new TransformPanel(this.iWorld); // then this can properly populate combo box
+        this.iTransform = new TransformPanel(this.iWorld, this.iCamera); // then this can properly populate combo box
+        this.iRender = new RenderPanel(this.iWorld, this.iCamera);
 
         this.iMainPanel.setLayout(new BorderLayout());
         this.iMainPanel.add(this.iRender, BorderLayout.WEST);
