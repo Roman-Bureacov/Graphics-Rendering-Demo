@@ -46,6 +46,8 @@ public class RenderPanel extends JPanel {
 
     /**
      * Constructs a new rendering panel.
+     * @param pSpace the space to render
+     * @param pCamera the camera that will be performing renders
      */
     public RenderPanel(final Space pSpace, final Camera pCamera) {
         super();
@@ -63,10 +65,10 @@ public class RenderPanel extends JPanel {
         // the stats on the bottom
         this.add(this.iRenderButton);
         this.add(this.iRenderStatsLabel);
-        this.iRenderStatsLabel.setText(this.iRenderStats);
 
         this.setupActions();
 
+        Base.centerAllComponents(this);
     }
 
     private void setupActions() {

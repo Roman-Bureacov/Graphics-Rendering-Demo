@@ -58,7 +58,7 @@ class Chair extends Mesh {
         t = MeshFactory.makeTriangle(
                 1d, 1d, 0.5d,
                 1d, 1.25d, 0d,
-                1d, 1d, 0.5d
+                1d, 1.25d, 0.5d
         );
         this.add(t);
 
@@ -129,7 +129,7 @@ class Chair extends Mesh {
         t = MeshFactory.makeTriangle(
                 -1d, 1d, 0.5d,
                 -1d, 1.25d, 0d,
-                -1d, 1d, 0.5d
+                -1d, 1.25d, 0.5d
         );
         this.add(t);
 
@@ -186,7 +186,7 @@ class Chair extends Mesh {
         t = MeshFactory.makeTriangle(
                -1.25d, -1.25d, 0d,
                -1d, -1.25d, 0d,
-               -1.25d, -1d, 0d
+               -1.25d,  -1d, 0d
         );
         this.add(t);
 
@@ -194,39 +194,39 @@ class Chair extends Mesh {
         t = MeshFactory.makeTriangle(
                -1d, -1d, 0d,
                -1d, -1.25d, 0d,
-               -1d, 1d, -0.5d
+               -1d, -1d, 0.5d
         );
         this.add(t);
         t = MeshFactory.makeTriangle(
-               -1d, 1d, -0.5d,
+               -1d, -1d, 0.5d,
                -1d, -1.25d, 0d,
-               -1d, 1d, -0.5d
+               -1d, -1.25d, 0.5d
         );
         this.add(t);
 
         t = MeshFactory.makeTriangle(
                -1d, -1.25d, 0d,
                -1.25d, -1.25d, 0d,
-               -1d, 1.25d, -0.5d
+               -1d, -1.25d, 0.5d
         );
         this.add(t);
         t = MeshFactory.makeTriangle(
                -1.25d, -1.25d, 0d,
-               -1.25d, 1.25d, -0.5d,
-               -1d, 1.25d, -0.5d
+               -1.25d, -1.25d, 0.5d,
+               -1d, -1.25d, 0.5d
         );
         this.add(t);
 
         t = MeshFactory.makeTriangle(
                -1.25d, -1.25d, 0d,
                -1.25d, -1d, 0d,
-               -1.25d, 1d, -0.5d
+               -1.25d, -1d, 0.5d
         );
         this.add(t);
         t = MeshFactory.makeTriangle(
                -1.25d, -1.25d, 0d,
-               -1.25d, 1.25d, -0.5d,
-               -1.25d, 1d, -0.5d
+               -1.25d, -1.25d, 0.5d,
+               -1.25d, -1d, 0.5d
         );
         this.add(t);
 
@@ -234,13 +234,13 @@ class Chair extends Mesh {
         t = MeshFactory.makeTriangle(
                -1d, -1d, 0d,
                -1.25d, -1d, 0d,
-               -1.25d, 1d, -0.5d
+               -1.25d, -1d, 0.5d
         );
         this.add(t);
         t = MeshFactory.makeTriangle(
                -1d, -1d, 0d,
-               -1d, 1d, -0.5d,
-               -1.25d, 1d, -0.5d
+               -1d, -1d, 0.5d,
+               -1.25d, -1d, 0.5d
         );
         this.add(t);
 
@@ -272,7 +272,7 @@ class Chair extends Mesh {
         t = MeshFactory.makeTriangle(
                 1d, -1d, 0.5d,
                 1d, -1.25d, 0d,
-                1d, -1d, 0.5d
+                1d, -1.25d, 0.5d
         );
         this.add(t);
 
@@ -328,9 +328,9 @@ class Chair extends Mesh {
         );
         this.add(t);
         t = MeshFactory.makeTriangle(
-                -1.4, 1.4, 0.5,
+                1.4, 1.4, 0.5,
                 -1.4, -1.4, 0.5,
-                1.4, -1.4, 0.5
+                -1.4, 1.4, 0.5
         );
         this.add(t);
         
@@ -343,9 +343,9 @@ class Chair extends Mesh {
         );
         this.add(t);
         t = MeshFactory.makeTriangle(
-                -1.4, 1.4, 0.65,
+                1.4, 1.4, 0.65,
                 -1.4, -1.4, 0.65,
-                1.4, -1.4, 0.65
+                -1.4, 1.4, 0.65
         );
         this.add(t);
         
@@ -464,15 +464,15 @@ class Chair extends Mesh {
 
         // top
         t = MeshFactory.makeTriangle(
-                -1.4, -1.4, 0.65,
-                -1.4, -1.2, 0.65,
-                1.4, -1.4, 0.65
+                -1.4, -1.4, 1.25,
+                -1.4, -1.2, 1.25,
+                1.4, -1.4, 1.25
         );
         this.add(t);
         t = MeshFactory.makeTriangle(
-                1.4, -1.2, 0.65,
-                -1.4, -1.2, 0.65,
-                1.4, -1.4, 0.65
+                1.4, -1.2, 1.25,
+                -1.4, -1.2, 1.25,
+                1.4, -1.4, 1.25
         );
         this.add(t);
     }

@@ -33,7 +33,7 @@ public class Base extends JFrame implements PropertyChangeListener {
     /** the width of the base panel */
     public final static int BASE_WIDTH = 750;
     /** the height of the base panel */
-    public final static int BASE_HEIGHT = 600;
+    public final static int BASE_HEIGHT = 500;
 
     private final Space iWorld = new Space();
     private final Camera iCamera = new Camera(0, 0, 0, 0, 0);
@@ -68,6 +68,7 @@ public class Base extends JFrame implements PropertyChangeListener {
     private void setupSpace() {
         final int lRed = 0xff0000;
         final int lBlue = 0x0000ff;
+        final int lGreen = 0x00ff00;
 
         Mesh lMesh = MeshFactory.create(MeshFactory.CHAIR);
         lMesh.setName("Chair 1");
@@ -87,6 +88,7 @@ public class Base extends JFrame implements PropertyChangeListener {
         lMesh = new Mesh();
         lMesh.setName("Triangle");
         final Triangle lTriangle = new Triangle();
+        lTriangle.setColor(lGreen);
         final Vertex[] lVerts = lTriangle.points();
         lVerts[1].set(1, 1d);
         lVerts[2].set(2, 1d);
